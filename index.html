@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>FTC Rules Quiz</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>FTC Rules Quiz</h1>
+	</header>
+
+	<!-- Category selector -->
+	<nav id="category-select" aria-label="Select category">
+		<button class="category-btn active" data-cat="All">All</button>
+		<button class="category-btn" data-cat="Driver rules">Driver rules</button>
+		<button class="category-btn" data-cat="Human player">Human player</button>
+		<button class="category-btn" data-cat="Robot inspection">Robot inspection</button>
+	</nav>
+
+	<main>
+		<section id="quiz" aria-live="polite">
+			<p id="score">Score: <span id="score-value">0</span></p>
+
+			<p id="question">Question text will appear here.</p>
+
+			<div id="answers" role="group" aria-label="Answer choices">
+				<button class="answer-btn" data-index="0">Answer 1</button>
+				<button class="answer-btn" data-index="1">Answer 2</button>
+				<button class="answer-btn" data-index="2">Answer 3</button>
+				<button class="answer-btn" data-index="3">Answer 4</button>
+			</div>
+
+			<p id="explanation" class="muted" aria-live="polite" hidden></p>
+
+			<button id="next-btn" disabled>Next</button>
+		</section>
+
+		<section id="result-screen" hidden>
+			<h2>Quiz Results</h2>
+			<p id="final-score">You scored <span id="final-score-value">0</span> points.</p>
+			<button id="restart-btn">Restart Quiz</button>
+		</section>
+	</main>
+
+	<script src="script.js" defer></script>
+</body>
+</html>
