@@ -1,37 +1,39 @@
-const SECTION_IDS = ['learn', 'tests', 'inspection'];
-
-function showSection(sectionId) {
-	const target = document.getElementById(sectionId);
-
-	if (target) {
-		const container = target.parentElement || document.querySelector('main') || document.body;
-		const siblings = container.querySelectorAll('section');
-		siblings.forEach(s => {
-			s.hidden = (s !== target);
-		});
-
-		target.hidden = false;
-	} else {
-		SECTION_IDS.forEach(id => {
-			const el = document.getElementById(id);
-			if (!el) return;
-			el.hidden = (id !== sectionId);
-		});
-	}
-
-	const sectionBtns = document.querySelectorAll('.section-btn');
-	sectionBtns.forEach(btn => {
-		const targetId = btn.dataset.section;
-		btn.classList.toggle('active', targetId === sectionId);
-	});
+function toSectionId(key) {
+	if (!key) return null;
+	return key.endsWith('-section') ? key : `${key}-section`;
 }
 
-document.querySelectorAll('.section-btn').forEach(btn => {
-	btn.addEventListener('click', () => {
+function showSection(sectionKey) {
+	const targetId = toSectionId(sectionKey);
+	const container = document.querySelector('main') || document.body;
+	if (!container) return;
+
+	const sections = Array.from(container.querySelectorAll(':scope > section'));
+	sections.forEach(s => {
+		s.hidden = s.id !== targetId;
+	});
+
+	const navButtons = Array.from(document.querySelectorAll('.top-nav-btn, .section-btn'));
+	navButtons.forEach(btn => btn.classList.remove('active'));
+	const match = navButtons.find(btn => (btn.dataset.section || '') === sectionKey);
+	if (match) match.classList.add('active');
+}
+
+document.querySelectorAll('.top-nav-btn, .section-btn').forEach(btn => {
+	btn.addEventListener('click', (e) => {
 		const target = btn.dataset.section;
-		if (target) showSection(target);
+		if (!target) return;
+		showSection(target);
 	});
 });
 
-document.addEventListener('DOMContentLoaded', () => showSection('learn'));
+document.addEventListener('DOMContentLoaded', () => {
+	showSection('learn');
+	const topBtns = Array.from(document.querySelectorAll('.top-nav-btn'));
+	if (topBtns.length) {
+		topBtns.forEach(b => b.classList.remove('active'));
+		const match = topBtns.find(b => (b.dataset.section || '') === 'learn');
+		if (match) match.classList.add('active');
+	}
+});
 

@@ -7,40 +7,65 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<nav id="top-nav" role="navigation" aria-label="Top navigation">
+		<div class="top-nav-left">
+			<span class="logo">FTC Trainer</span>
+		</div>
+		<div class="top-nav-right">
+			<button class="top-nav-btn" data-section="learn">Learn</button>
+			<button class="top-nav-btn" data-section="tests">Tests</button>
+			<button class="top-nav-btn" data-section="inspection">Inspection</button>
+		</div>
+	</nav>
+
 	<header>
 		<h1>FTC Rules Quiz</h1>
 	</header>
 
-	<nav id="category-select" aria-label="Select category">
-		<button class="category-btn active" data-cat="All">All</button>
-		<button class="category-btn" data-cat="Human Player">Human Player</button>
-		<button class="category-btn" data-cat="Driver">Driver</button>
-		<button class="category-btn" data-cat="Coach">Coach</button>
-		<button class="category-btn" data-cat="Robot Inspection">Robot Inspection</button>
-	</nav>
-
 	<main>
-		<section id="quiz" aria-live="polite">
-			<p id="score">Score: <span id="score-value">0</span></p>
-
-			<p id="question">Question text will appear here.</p>
-
-			<div id="answers" role="group" aria-label="Answer choices">
-				<button class="answer-btn" data-index="0">Answer 1</button>
-				<button class="answer-btn" data-index="1">Answer 2</button>
-				<button class="answer-btn" data-index="2">Answer 3</button>
-				<button class="answer-btn" data-index="3">Answer 4</button>
-			</div>
-
-			<p id="explanation" class="muted" aria-live="polite" hidden></p>
-
-			<button id="next-btn" disabled>Next</button>
+		<!-- Learn section: visible by default -->
+		<section id="learn-section">
+			<!-- `learn.js` will populate or create an element with id="learn" here -->
+			<div id="learn"></div>
 		</section>
 
-		<section id="result-screen" hidden>
-			<h2>Quiz Results</h2>
-			<p id="final-score">You scored <span id="final-score-value">0</span> points.</p>
-			<button id="restart-btn">Restart Quiz</button>
+		<!-- Tests section: contains category controls and quiz; hidden by default -->
+		<section id="tests-section" hidden>
+			<nav id="category-select" aria-label="Select category">
+				<button class="category-btn active" data-cat="All">All</button>
+				<button class="category-btn" data-cat="Human Player">Human Player</button>
+				<button class="category-btn" data-cat="Driver">Driver</button>
+				<button class="category-btn" data-cat="Coach">Coach</button>
+				<button class="category-btn" data-cat="Robot Inspection">Robot Inspection</button>
+			</nav>
+
+			<section id="quiz" aria-live="polite">
+				<p id="score">Score: <span id="score-value">0</span></p>
+
+				<p id="question">Question text will appear here.</p>
+
+				<div id="answers" role="group" aria-label="Answer choices">
+					<button class="answer-btn" data-index="0">Answer 1</button>
+					<button class="answer-btn" data-index="1">Answer 2</button>
+					<button class="answer-btn" data-index="2">Answer 3</button>
+					<button class="answer-btn" data-index="3">Answer 4</button>
+				</div>
+
+				<p id="explanation" class="muted" aria-live="polite" hidden></p>
+
+				<button id="next-btn" disabled>Next</button>
+			</section>
+
+			<section id="result-screen" hidden>
+				<h2>Quiz Results</h2>
+				<p id="final-score">You scored <span id="final-score-value">0</span> points.</p>
+				<button id="restart-btn">Restart Quiz</button>
+			</section>
+		</section>
+
+		<!-- Inspection section: hidden by default; can be populated as needed -->
+		<section id="inspection-section" hidden>
+			<div id="inspection-placeholder"></div>
 		</section>
 	</main>
 
