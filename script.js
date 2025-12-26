@@ -20,9 +20,9 @@ function showSection(sectionKey) {
 
 	if (window.setContextTitle) {
 		if (sectionKey === 'learn') {
-			const activeLesson = document.querySelector('.lesson-btn.active');
-			const lessonText = activeLesson ? activeLesson.textContent.trim() : '';
-			window.setContextTitle(lessonText ? `Learn → ${lessonText}` : 'Learn');
+			const activeLesson = document.querySelector('.lesson-btn.active, .learn-topic-btn.active');
+			const lessonName = activeLesson ? (activeLesson.dataset.topic || activeLesson.textContent.trim()) : '';
+			window.setContextTitle(lessonName ? `Learn → ${lessonName}` : 'Learn');
 		} else if (sectionKey === 'tests') {
 			const catBtn = document.querySelector('.category-btn.active');
 			const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
@@ -51,11 +51,95 @@ document.addEventListener('DOMContentLoaded', () => {
 		const match = topBtns.find(b => (b.dataset.section || '') === 'learn');
 		if (match) match.classList.add('active');
 	}
+
+	const progressBtn = document.querySelector('.section-btn[data-section="progress"]');
+	if (progressBtn) {
+		progressBtn.addEventListener('click', () => {
+			showSection('progress');
+			renderProgressSection();
+		});
+	}
 });
 
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'reset-progress-btn') {
+        if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+            localStorage.removeItem('quizResults');
+            renderProgressSection();
+        }
+    }
+});
+
+function renderProgressSection() {
+	let results = [];
+	try {
+		results = JSON.parse(localStorage.getItem('quizResults') || '[]');
+	} catch (e) {}
+	if (!Array.isArray(results)) results = [];
+
+	document.getElementById('progress-total-quizzes').textContent = results.length;
+
+	let avg = 0;
+	if (results.length) {
+		avg = results.reduce((sum, r) => sum + (r.score / (r.total || 1)), 0) / results.length;
+	}
+	const avgPercent = (avg * 100);
+	const avgScoreEl = document.getElementById('progress-average-score');
+	avgScoreEl.textContent = avgPercent.toFixed(1) + '%';
+	avgScoreEl.className = avgPercent >= 80 ? 'score-success' : (avgPercent < 50 ? 'score-warning' : 'score-neutral');
+
+	const best = {};
+	results.forEach(r => {
+		if (!r.type) return;
+		const percent = (r.score / (r.total || 1));		if (!best[r.type] || percent > best[r.type].percent) {
+			best[r.type] = { score: r.score, total: r.total, percent };
+		}
+	});
+	const bestList = document.getElementById('progress-best-scores');
+	bestList.innerHTML = '';
+	Object.entries(best).forEach(([type, data]) => {
+		const percent = data.percent * 100;
+		const li = document.createElement('li');
+		const scoreSpan = document.createElement('span');
+		scoreSpan.textContent = `${type}: ${data.score} / ${data.total} (${percent.toFixed(1)}%)`;
+		scoreSpan.className = percent >= 80 ? 'score-success' : (percent < 50 ? 'score-warning' : 'score-neutral');
+		li.appendChild(scoreSpan);
+		const bar = document.createElement('div');
+		bar.className = 'progress-bar';
+		const barInner = document.createElement('div');
+		barInner.className = 'progress-bar-inner ' + (percent >= 80 ? 'progress-success' : (percent < 50 ? 'progress-warning' : 'progress-neutral'));
+		barInner.style.width = Math.max(6, percent) + '%';
+		bar.appendChild(barInner);
+		li.appendChild(bar);
+		bestList.appendChild(li);
+	});
+}
 window.setContextTitle = function(text) {
 	const el = document.getElementById('context-title');
 	if (!el) return;
+	// Custom breadcrumb logic
+	const testsSection = document.getElementById('tests-section');
+	const progressSection = document.getElementById('progress-section');
+	if (testsSection && !testsSection.hidden) {
+		// Tests section
+		const catBtn = document.querySelector('.category-btn.active');
+		const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
+		const quizVisible = document.getElementById('quiz') && !document.getElementById('quiz').hidden;
+		const resultVisible = document.getElementById('result-screen') && !document.getElementById('result-screen').hidden;
+		if (resultVisible) {
+			el.textContent = `Tests → ${cat || 'All'} → Results`;
+		} else if (quizVisible) {
+			el.textContent = `Tests → ${cat || 'All'} → Quiz`;
+		} else {
+			el.textContent = cat ? `Tests → ${cat}` : 'Tests';
+		}
+		return;
+	}
+	if (progressSection && !progressSection.hidden) {
+		el.textContent = 'Progress → Overview';
+		return;
+	}
+	// Fallback/default
 	el.textContent = String(text || '').trim();
 };
 

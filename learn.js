@@ -1,93 +1,163 @@
 (function () {
   'use strict';
 
+  // Structured lessons: title, body (HTML), and tips (HTML) for each topic
   const lessons = {
     Autonomous: {
       title: 'Autonomous',
-      html: `
-        <p>Autonomous is the match start when the robot runs on its own, using code and sensors.</p>
+      body: `
+        <p>Autonomous is the part of the match when your robot runs without driver input. The robot follows pre-written code and uses sensors to interact with the field.</p>
         <ul>
-          <li>Robots score points by completing tasks set by the game rules.</li>
-          <li>They must follow starting position and field boundary rules during this period.</li>
-          <li>Sensors and simple, repeatable routines help the robot perform reliably.</li>
+          <li>Complete clear, rule-approved tasks to score points automatically.</li>
+          <li>Start from approved positions and respect field boundaries.</li>
+          <li>Favor simple, repeatable routines over complex ones that may fail.</li>
         </ul>
-        <p class="muted">Tip: Simple, consistent routines work better than complex ones that break often.</p>
+      `,
+      tips: `
+        <ul>
+          <li>Test routines from exact starting positions every time.</li>
+          <li>Use sensors for decisions but add safe fallbacks if a sensor fails.</li>
+          <li>Focus on reliably scoring small amounts rather than risky huge plays.</li>
+        </ul>
       `
     },
 
     TeleOp: {
       title: 'TeleOp',
-      html: `
-        <p>TeleOp is the part of the match when team members control the robot using controllers.</p>
+      body: `
+        <p>TeleOp is when drivers control the robot using controllers. This phase relies on teamwork, communication, and consistent driving.</p>
         <ul>
-          <li>Drivers must follow the rules for driver stations and allowed actions.</li>
-          <li>Clear roles and good communication between drivers help the team perform better.</li>
-          <li>Practice driving on a field like the competition field for consistency.</li>
+          <li>Follow rules for driver stations and allowed actions.</li>
+          <li>Assign clear roles (driver, operator, spotter) to avoid confusion.</li>
+          <li>Practice with the same field layout and game pieces used in competition.</li>
+        </ul>
+      `,
+      tips: `
+        <ul>
+          <li>Run short practice drills focused on common match tasks.</li>
+          <li>Keep control mappings simple and consistent between drivers.</li>
+          <li>Use clear, short callouts for important moments (e.g., "Ready", "Go").</li>
         </ul>
       `
     },
 
     Endgame: {
       title: 'Endgame',
-      html: `
-        <p>The endgame is the short final part of the match with special tasks that give extra points.</p>
+      body: `
+        <p>The endgame is the short final period with special tasks that often award bonus points. Timing and reliability matter most here.</p>
         <ul>
-          <li>Endgame tasks (like parking or scoring in special goals) usually give extra points.</li>
-          <li>Teams must decide whether the extra points are worth the risk in each match.</li>
+          <li>Endgame tasks often give extra points but may be riskier.</li>
+          <li>Teams should plan whether to attempt high-value plays based on match situation.</li>
+        </ul>
+      `,
+      tips: `
+        <ul>
+          <li>Design a simple, repeatable endgame your team can perform under pressure.</li>
+          <li>Practice the timing so drivers know when to start endgame actions.</li>
         </ul>
       `
     },
 
     Penalties: {
       title: 'Penalties',
-      html: `
-        <p>Penalties are applied when rules are broken and can cost your team points.</p>
+      body: `
+        <p>Penalties are applied when rules are broken and usually reduce your score. Avoiding penalties is often more important than risky point attempts.</p>
         <ul>
-          <li>Examples: touching restricted parts of the field, going outside allowed areas, or unsafe robot actions.</li>
-          <li>Referees call penalties — follow their instructions and the event rules to avoid them.</li>
+          <li>Common penalties include unsafe actions, leaving allowed areas, or interfering with other robots.</li>
+          <li>Referees enforce the rulebook — always follow their instructions.</li>
+        </ul>
+      `,
+      tips: `
+        <ul>
+          <li>Learn the penalty rules that affect your team most and train to avoid them.</li>
+          <li>Perform quick safety checks before each match.</li>
+          <li>When unsure, ask mentors or officials — don't guess during a match.</li>
         </ul>
       `
     },
 
     Roles: {
       title: 'Roles',
-      html: `
-        <p>Teams assign roles to organize who does what during matches.</p>
+      body: `
+        <p>Roles organize who does what during practice and matches. Common roles include drivers, coach, and support staff for setup and inspections.</p>
         <ul>
-          <li>Driver/Operator: control the robot during TeleOp following the team plan.</li>
-          <li>Coach: helps with strategy and talks to referees if allowed by the rules.</li>
-          <li>Everyone on the team should know the rules and behave professionally at events.</li>
+          <li>Driver/Operator: control the robot during TeleOp following team strategy.</li>
+          <li>Coach: manages strategy, communicates with alliance partners, and helps with match planning.</li>
+          <li>Support: handles robot setup, inspections, and safety checks between matches.</li>
+        </ul>
+      `,
+      tips: `
+        <ul>
+          <li>Practice clear, short communication and callouts.</li>
+          <li>Rotate roles during practice so backups gain experience.</li>
+          <li>Keep a calm, professional attitude at events to help the team perform.</li>
         </ul>
       `
     }
   };
 
+  // LocalStorage key and completed set
+  const STORAGE_KEY = 'learn.completed';
+  function loadCompletedSet() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return new Set(Array.isArray(arr) ? arr : []);
+    } catch (e) {
+      return new Set();
+    }
+  }
+  let completedSet = loadCompletedSet();
+  function saveCompletedSet() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(completedSet)));
+    } catch (e) {
+      // ignore quota errors
+    }
+  }
+  function markCompleted(topic) {
+    if (!topic) return;
+    if (!completedSet.has(topic)) {
+      completedSet.add(topic);
+      saveCompletedSet();
+      // update UI checkmark if present
+      const btn = document.querySelector(`[data-topic="${CSS.escape(topic)}"]`);
+      if (btn) {
+        const check = btn.querySelector('.lesson-check');
+        if (check) check.textContent = '✓';
+      }
+    }
+  }
+
 
   function ensureLearnSection() {
-    let learn = document.getElementById('learn');
+    // Prefer an existing learn section if present
+    let learn = document.getElementById('learn-section') || document.getElementById('learn');
     if (!learn) {
       const main = document.querySelector('main') || document.body;
       learn = document.createElement('section');
       learn.id = 'learn';
       learn.setAttribute('aria-live', 'polite');
-     
       main.insertBefore(learn, main.firstChild);
     }
 
-
-    let nav = document.getElementById('lesson-nav');
+    // Use provided menu/content IDs if they exist in the HTML, otherwise create defaults
+    let nav = document.getElementById('learn-menu') || document.getElementById('lesson-nav');
     if (!nav) {
       nav = document.createElement('div');
       nav.id = 'lesson-nav';
       learn.appendChild(nav);
     }
 
-    let content = document.getElementById('lesson-content');
+    let content = document.getElementById('learn-content') || document.getElementById('lesson-content');
     if (!content) {
       content = document.createElement('div');
       content.id = 'lesson-content';
       content.setAttribute('tabindex', '0');
       learn.appendChild(content);
+    } else {
+      // ensure content is focusable for accessibility
+      if (!content.hasAttribute('tabindex')) content.setAttribute('tabindex', '0');
     }
 
     let controls = document.getElementById('lesson-controls');
@@ -115,14 +185,22 @@
 
 
   function buildNav(navEl, selectedTopic) {
+    // Replace or populate the provided nav element. Use both 'lesson-btn' and
+    // 'learn-topic-btn' classes so existing styles apply.
     navEl.innerHTML = '';
     topics = Object.keys(lessons);
     Object.keys(lessons).forEach(topic => {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = 'lesson-btn';
+      btn.className = 'lesson-btn learn-topic-btn';
       btn.dataset.topic = topic;
       btn.textContent = topic;
+      // add a small checkmark element for completed state
+      const check = document.createElement('span');
+      check.className = 'lesson-check';
+      check.textContent = completedSet.has(topic) ? '✓' : '';
+      check.setAttribute('aria-hidden', 'true');
+      btn.appendChild(check);
       if (topic === selectedTopic) btn.classList.add('active');
       btn.addEventListener('click', () => loadLesson(topic));
       navEl.appendChild(btn);
@@ -140,16 +218,29 @@
       return;
     }
 
-    const buttons = nav.querySelectorAll('.lesson-btn');
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.topic === topic));
+    // highlight only the selected topic in the menu (supports both classes)
+    const buttons = nav.querySelectorAll('.learn-topic-btn, .lesson-btn');
+    buttons.forEach(b => {
+      if (b.dataset.topic === topic) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
+      }
+    });
 
-    content.innerHTML = `\n      <h3>${lesson.title}</h3>\n      <div class="lesson-body">${lesson.html}</div>\n    `;
+    content.innerHTML = `\n      <h3>${lesson.title}</h3>\n      <div class="lesson-body">${lesson.body}</div>\n      <div class="lesson-tips">\n        <h4>Tips</h4>\n        <div class="tips-body muted">${lesson.tips}</div>\n      </div>\n    `;
     content.focus();
     
     topics = Object.keys(lessons);
     const idx = topics.indexOf(topic);
     currentLessonIndex = idx >= 0 ? idx : 0;
     updateLessonControls();
+    // mark lesson as completed on view
+    markCompleted(topic);
+    // update global context/breadcrumb
+    if (window.setContextTitle) {
+      window.setContextTitle(`Learn → ${lesson.title}`);
+    }
   }
 
   function updateLessonControls() {

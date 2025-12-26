@@ -502,10 +502,54 @@ function handleAnswerClick(e) {
   nextBtn.disabled = false;
 }
 
+function saveQuizResult({ testType, score, total }) {
+  const key = 'quiz.results';
+  let results = [];
+  try {
+    const raw = localStorage.getItem(key);
+    results = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(results)) results = [];
+  } catch (e) { results = []; }
+  const entry = {
+    testType,
+    score,
+    total,
+    date: new Date().toISOString()
+  };
+  results.unshift(entry);
+  if (results.length > 10) results = results.slice(0, 10);
+  try {
+    localStorage.setItem(key, JSON.stringify(results));
+  } catch (e) { /* ignore quota errors */ }
+}
+    let incorrectQuestions = [];
+
 function handleNext() {
   currentIndex += 1;
   if (currentIndex >= activeQuestions.length) {
+    // Calculate stats
+    const total = activeQuestions.length;
+    const correct = score;
+    const incorrect = total - score;
+    const percent = total > 0 ? Math.round((score / total) * 100) : 0;
+    const pass = percent >= 70; // 70%+ is pass
+
+    // Update result screen
     finalScoreValue.textContent = String(score);
+    const totalEl = document.getElementById('final-score-total');
+    if (totalEl) totalEl.textContent = String(total);
+    const percentEl = document.getElementById('final-score-percent');
+    if (percentEl) percentEl.textContent = percent + '%';
+    const correctEl = document.getElementById('final-score-correct');
+    if (correctEl) correctEl.textContent = String(correct);
+    const incorrectEl = document.getElementById('final-score-incorrect');
+    if (incorrectEl) incorrectEl.textContent = String(incorrect);
+    const passfailEl = document.getElementById('final-score-passfail');
+    if (passfailEl) {
+      passfailEl.textContent = pass ? 'PASS' : 'FAIL';
+      passfailEl.className = 'qrs-passfail ' + (pass ? 'qrs-pass' : 'qrs-fail');
+    }
+
     quizSection.hidden = true;
     resultScreen.hidden = false;
     setTopNavDisabled(false);
@@ -513,7 +557,15 @@ function handleNext() {
       const cat = selectedCategory || 'Tests';
       window.setContextTitle(`Tests → ${cat} → Results`);
     }
-    updateProgress(activeQuestions.length, activeQuestions.length);
+    updateProgress(total, total);
+    // Save quiz result
+    saveQuizResult({
+      testType: selectedCategory || 'All',
+      score,
+      total
+    });
+    // After saving, update the results list if present
+    if (typeof renderQuizResultsList === 'function') renderQuizResultsList();
   } else {
     showQuestion(currentIndex);
   }
@@ -544,10 +596,19 @@ function handleRestart() {
 }
 
 answerBtns.forEach(btn => btn.addEventListener('click', handleAnswerClick));
+    function handleRetryIncorrect() {
+      if (!incorrectQuestions.length) return;
+      // Shuffle for fairness
+      const retryQs = shuffle(incorrectQuestions.slice());
+      initQuiz(retryQs);
+    }
 nextBtn.addEventListener('click', handleNext);
 restartBtn.addEventListener('click', handleRestart);
 
 function setCategory(cat) {
+
+    const retryIncorrectBtn = document.getElementById('retry-incorrect-btn');
+    if (retryIncorrectBtn) retryIncorrectBtn.addEventListener('click', handleRetryIncorrect);
   selectedCategory = cat;
   categoryBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
   activeQuestions = prepareQuiz(cat, 10);
@@ -557,6 +618,43 @@ function setCategory(cat) {
 categoryBtns.forEach(btn => {
   btn.addEventListener('click', () => setCategory(btn.dataset.cat));
 });
+
+
+// Render previous quiz attempts from localStorage
+function renderQuizResultsList() {
+  const container = document.getElementById('quiz-results-list');
+  if (!container) return;
+  let results = [];
+  try {
+    const raw = localStorage.getItem('quiz.results');
+    results = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(results)) results = [];
+  } catch (e) { results = []; }
+  if (results.length === 0) {
+    container.innerHTML = '<div class="muted">No previous attempts.</div>';
+    return;
+  }
+  const rows = results.map(r => {
+    const date = new Date(r.date).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' });
+    return `<li class="quiz-result-row">
+      <span class="qr-type">${escapeHtml(r.testType)}</span>
+      <span class="qr-score">${r.score} / ${r.total}</span>
+      <span class="qr-date">${date}</span>
+    </li>`;
+  }).join('');
+  container.innerHTML = `<ul class="quiz-results-ul">${rows}</ul>`;
+}
+
+// Helper to escape HTML
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const testBtns = Array.from(document.querySelectorAll('.test-select-btn'));
@@ -574,4 +672,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Render previous results if container exists
+  renderQuizResultsList();
 });
