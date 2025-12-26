@@ -363,9 +363,23 @@ const restartBtn = document.getElementById('restart-btn');
 const quizSection = document.getElementById('quiz');
 const explanationEl = document.getElementById('explanation');
 const categoryBtns = Array.from(document.querySelectorAll('.category-btn'));
+const progressBarEl = document.getElementById('progress-bar');
+const progressTextEl = document.getElementById('progress-text');
 
 let selectedCategory = 'All';
 let activeQuestions = [];
+
+function setTopNavDisabled(disabled) {
+  const topNavBtns = Array.from(document.querySelectorAll('.top-nav-btn'));
+  topNavBtns.forEach(b => {
+    b.disabled = !!disabled;
+    if (disabled) {
+      b.classList.add('disabled');
+    } else {
+      b.classList.remove('disabled');
+    }
+  });
+}
 
 function getAllQuestions() {
   return Object.values(questionBank).flat();
@@ -410,10 +424,17 @@ function initQuiz() {
   nextBtn.disabled = true;
   resultScreen.hidden = true;
   quizSection.hidden = false;
+  setTopNavDisabled(true);
   if (explanationEl) {
     explanationEl.hidden = true;
     explanationEl.textContent = '';
   }
+  if (window.setContextTitle) {
+    const total = activeQuestions.length || 0;
+    const cat = selectedCategory || 'Tests';
+    window.setContextTitle(`Tests → ${cat} → Question ${currentIndex + 1} / ${total}`);
+  }
+  updateProgress(currentIndex + 1, activeQuestions.length);
 }
 
 function updateScoreDisplay() {
@@ -437,6 +458,12 @@ function showQuestion(index) {
     explanationEl.hidden = true;
     explanationEl.textContent = '';
   }
+  if (window.setContextTitle) {
+    const total = activeQuestions.length || 0;
+    const cat = selectedCategory || 'Tests';
+    window.setContextTitle(`Tests → ${cat} → Question ${index + 1} / ${total}`);
+  }
+  updateProgress(index + 1, activeQuestions.length);
 }
 
 function handleAnswerClick(e) {
@@ -481,9 +508,35 @@ function handleNext() {
     finalScoreValue.textContent = String(score);
     quizSection.hidden = true;
     resultScreen.hidden = false;
+    setTopNavDisabled(false);
+    if (window.setContextTitle) {
+      const cat = selectedCategory || 'Tests';
+      window.setContextTitle(`Tests → ${cat} → Results`);
+    }
+    updateProgress(activeQuestions.length, activeQuestions.length);
   } else {
     showQuestion(currentIndex);
   }
+}
+
+function updateProgress(current, total) {
+  if (!progressBarEl || !progressTextEl) return;
+  const pct = total > 0 ? Math.round((current / total) * 100) : 0;
+  progressBarEl.style.setProperty('--pct', pct + '%');
+  progressBarEl.setAttribute('aria-valuenow', String(pct));
+  progressTextEl.textContent = `Question ${current} / ${total}`;
+  let fill = progressBarEl.querySelector('.progress-fill');
+  if (!fill) {
+    fill = document.createElement('div');
+    fill.className = 'progress-fill';
+    fill.style.height = '100%';
+    fill.style.width = '0%';
+    fill.style.background = 'linear-gradient(90deg,var(--accent),var(--accent-600))';
+    fill.style.borderRadius = '999px';
+    fill.style.transition = 'width 220ms ease';
+    progressBarEl.appendChild(fill);
+  }
+  fill.style.width = pct + '%';
 }
 
 function handleRestart() {
@@ -505,4 +558,20 @@ categoryBtns.forEach(btn => {
   btn.addEventListener('click', () => setCategory(btn.dataset.cat));
 });
 
-document.addEventListener('DOMContentLoaded', initQuiz);
+document.addEventListener('DOMContentLoaded', () => {
+  const testBtns = Array.from(document.querySelectorAll('.test-select-btn'));
+  const categoryNav = document.getElementById('category-select');
+
+  testBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.cat || 'All';
+
+      const sel = document.getElementById('test-selection');
+      if (sel) sel.hidden = true;
+      if (categoryNav) categoryNav.hidden = false;
+
+      setCategory(cat);
+    });
+  });
+
+});

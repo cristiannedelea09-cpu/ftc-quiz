@@ -17,6 +17,22 @@ function showSection(sectionKey) {
 	navButtons.forEach(btn => btn.classList.remove('active'));
 	const match = navButtons.find(btn => (btn.dataset.section || '') === sectionKey);
 	if (match) match.classList.add('active');
+
+	if (window.setContextTitle) {
+		if (sectionKey === 'learn') {
+			const activeLesson = document.querySelector('.lesson-btn.active');
+			const lessonText = activeLesson ? activeLesson.textContent.trim() : '';
+			window.setContextTitle(lessonText ? `Learn → ${lessonText}` : 'Learn');
+		} else if (sectionKey === 'tests') {
+			const catBtn = document.querySelector('.category-btn.active');
+			const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
+			window.setContextTitle(cat ? `Tests → ${cat}` : 'Tests');
+		} else if (sectionKey === 'inspection') {
+			window.setContextTitle('Inspection');
+		} else {
+			window.setContextTitle(sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1));
+		}
+	}
 }
 
 document.querySelectorAll('.top-nav-btn, .section-btn').forEach(btn => {
@@ -36,4 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (match) match.classList.add('active');
 	}
 });
+
+window.setContextTitle = function(text) {
+	const el = document.getElementById('context-title');
+	if (!el) return;
+	el.textContent = String(text || '').trim();
+};
 

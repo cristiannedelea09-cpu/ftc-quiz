@@ -19,19 +19,27 @@
 	</nav>
 
 	<header>
-		<h1>FTC Rules Quiz</h1>
+		<h1 id="app-title">FTC Rules Quiz</h1>
+		<div id="context-title" class="muted" aria-live="polite">Learn</div>
 	</header>
 
 	<main>
-		<!-- Learn section: visible by default -->
 		<section id="learn-section">
-			<!-- `learn.js` will populate or create an element with id="learn" here -->
 			<div id="learn"></div>
 		</section>
 
-		<!-- Tests section: contains category controls and quiz; hidden by default -->
 		<section id="tests-section" hidden>
-			<nav id="category-select" aria-label="Select category">
+			<div id="test-selection">
+				<p class="muted">Select a test to begin:</p>
+				<div class="test-select-grid">
+					<button class="test-select-btn" data-cat="Human Player">Human Player</button>
+					<button class="test-select-btn" data-cat="Driver">Driver</button>
+					<button class="test-select-btn" data-cat="Coach">Coach</button>
+					<button class="test-select-btn" data-cat="Robot Inspection">Robot Inspection</button>
+				</div>
+			</div>
+
+			<nav id="category-select" aria-label="Select category" hidden>
 				<button class="category-btn active" data-cat="All">All</button>
 				<button class="category-btn" data-cat="Human Player">Human Player</button>
 				<button class="category-btn" data-cat="Driver">Driver</button>
@@ -39,8 +47,12 @@
 				<button class="category-btn" data-cat="Robot Inspection">Robot Inspection</button>
 			</nav>
 
-			<section id="quiz" aria-live="polite">
+			<section id="quiz" aria-live="polite" hidden>
 				<p id="score">Score: <span id="score-value">0</span></p>
+				<div id="progress" aria-hidden="false">
+					<div id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+					<div id="progress-text" class="muted">Question 0 / 0</div>
+				</div>
 
 				<p id="question">Question text will appear here.</p>
 
@@ -63,9 +75,14 @@
 			</section>
 		</section>
 
-		<!-- Inspection section: hidden by default; can be populated as needed -->
 		<section id="inspection-section" hidden>
-			<div id="inspection-placeholder"></div>
+			<div id="inspection-controls" class="inspection-controls">
+				<p class="muted">Inspection tools:</p>
+				<div class="inspection-btns">
+					<button id="checklist-mode-btn" class="inspection-btn">Checklist Mode</button>
+					<button id="inspection-quiz-btn" class="inspection-btn">Inspection Quiz</button>
+				</div>
+			</div>
 		</section>
 	</main>
 
