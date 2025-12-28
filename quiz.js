@@ -527,14 +527,12 @@ function saveQuizResult({ testType, score, total }) {
 function handleNext() {
   currentIndex += 1;
   if (currentIndex >= activeQuestions.length) {
-    // Calculate stats
     const total = activeQuestions.length;
     const correct = score;
     const incorrect = total - score;
     const percent = total > 0 ? Math.round((score / total) * 100) : 0;
-    const pass = percent >= 70; // 70%+ is pass
+    const pass = percent >= 70;
 
-    // Update result screen
     finalScoreValue.textContent = String(score);
     const totalEl = document.getElementById('final-score-total');
     if (totalEl) totalEl.textContent = String(total);
@@ -558,13 +556,11 @@ function handleNext() {
       window.setContextTitle(`Tests → ${cat} → Results`);
     }
     updateProgress(total, total);
-    // Save quiz result
     saveQuizResult({
       testType: selectedCategory || 'All',
       score,
       total
     });
-    // After saving, update the results list if present
     if (typeof renderQuizResultsList === 'function') renderQuizResultsList();
   } else {
     showQuestion(currentIndex);
@@ -598,7 +594,6 @@ function handleRestart() {
 answerBtns.forEach(btn => btn.addEventListener('click', handleAnswerClick));
     function handleRetryIncorrect() {
       if (!incorrectQuestions.length) return;
-      // Shuffle for fairness
       const retryQs = shuffle(incorrectQuestions.slice());
       initQuiz(retryQs);
     }
@@ -619,8 +614,6 @@ categoryBtns.forEach(btn => {
   btn.addEventListener('click', () => setCategory(btn.dataset.cat));
 });
 
-
-// Render previous quiz attempts from localStorage
 function renderQuizResultsList() {
   const container = document.getElementById('quiz-results-list');
   if (!container) return;
@@ -645,7 +638,6 @@ function renderQuizResultsList() {
   container.innerHTML = `<ul class="quiz-results-ul">${rows}</ul>`;
 }
 
-// Helper to escape HTML
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -672,6 +664,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Render previous results if container exists
   renderQuizResultsList();
 });

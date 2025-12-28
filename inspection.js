@@ -164,26 +164,59 @@
 	}
 
 	function showInspectionMode(mode) {
+		const inspectionSection = document.getElementById('inspection-section');
+		if (!inspectionSection) return;
+
 		const checklistSection = document.getElementById('inspection-checklist');
 		const quizSection = document.getElementById('inspection-quiz');
-		if (checklistSection) checklistSection.style.display = (mode === 'checklist') ? '' : 'none';
-		if (quizSection) quizSection.style.display = (mode === 'quiz') ? '' : 'none';
+
+		if (mode) {
+			inspectionSection.classList.add('content-visible');
+		} else {
+			inspectionSection.classList.remove('content-visible');
+		}
+
+		if (checklistSection) checklistSection.hidden = (mode !== 'checklist');
+		if (quizSection) quizSection.hidden = (mode !== 'quiz');
+		
 		const checklistBtn = document.getElementById('inspection-mode-checklist');
 		const quizBtn = document.getElementById('inspection-mode-quiz');
 		if (checklistBtn) checklistBtn.classList.toggle('active', mode === 'checklist');
 		if (quizBtn) quizBtn.classList.toggle('active', mode === 'quiz');
+
+		const titleEl = document.getElementById('inspection-title');
+		const subtitleEl = document.getElementById('inspection-subtitle');
+
+		if (mode === 'checklist') {
+			if (titleEl) titleEl.textContent = 'Inspection Checklist';
+			if (subtitleEl) subtitleEl.textContent = 'Use this checklist to verify robot compliance before matches.';
+		} else if (mode === 'quiz') {
+			if (titleEl) titleEl.textContent = 'Inspection Quiz';
+			if (subtitleEl) subtitleEl.textContent = 'Practice spotting legal vs illegal scenarios during inspection.';
+		} else {
+			if (titleEl) titleEl.textContent = 'Inspection';
+			if (subtitleEl) subtitleEl.textContent = 'Select a tool to begin.';
+		}
+
 		if (window.setContextTitle) {
 			if (mode === 'checklist') {
 				window.setContextTitle('Inspection → Checklist');
 			} else if (mode === 'quiz') {
 				window.setContextTitle('Inspection → Quiz');
+			} else {
+				window.setContextTitle('Inspection');
 			}
 		}
 	}
 
+	function resetInspectionView() {
+		showInspectionMode(null);
+	}
+	window.resetInspectionView = resetInspectionView;
+
 	document.addEventListener('DOMContentLoaded', () => {
 		renderInspectionChecklist();
-		showInspectionMode('checklist');
+		resetInspectionView();
 
 		const checklistModeBtn = document.getElementById('inspection-mode-checklist');
 		if (checklistModeBtn) {

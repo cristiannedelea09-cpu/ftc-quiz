@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-  // Structured lessons: title, body (HTML), and tips (HTML) for each topic
   const lessons = {
     Autonomous: {
       title: 'Autonomous',
@@ -96,7 +95,6 @@
     }
   };
 
-  // LocalStorage key and completed set
   const STORAGE_KEY = 'learn.completed';
   function loadCompletedSet() {
     try {
@@ -112,7 +110,6 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(completedSet)));
     } catch (e) {
-      // ignore quota errors
     }
   }
   function markCompleted(topic) {
@@ -120,7 +117,6 @@
     if (!completedSet.has(topic)) {
       completedSet.add(topic);
       saveCompletedSet();
-      // update UI checkmark if present
       const btn = document.querySelector(`[data-topic="${CSS.escape(topic)}"]`);
       if (btn) {
         const check = btn.querySelector('.lesson-check');
@@ -131,7 +127,6 @@
 
 
   function ensureLearnSection() {
-    // Prefer an existing learn section if present
     let learn = document.getElementById('learn-section') || document.getElementById('learn');
     if (!learn) {
       const main = document.querySelector('main') || document.body;
@@ -141,7 +136,6 @@
       main.insertBefore(learn, main.firstChild);
     }
 
-    // Use provided menu/content IDs if they exist in the HTML, otherwise create defaults
     let nav = document.getElementById('learn-menu') || document.getElementById('lesson-nav');
     if (!nav) {
       nav = document.createElement('div');
@@ -156,7 +150,6 @@
       content.setAttribute('tabindex', '0');
       learn.appendChild(content);
     } else {
-      // ensure content is focusable for accessibility
       if (!content.hasAttribute('tabindex')) content.setAttribute('tabindex', '0');
     }
 
@@ -185,8 +178,6 @@
 
 
   function buildNav(navEl, selectedTopic) {
-    // Replace or populate the provided nav element. Use both 'lesson-btn' and
-    // 'learn-topic-btn' classes so existing styles apply.
     navEl.innerHTML = '';
     topics = Object.keys(lessons);
     Object.keys(lessons).forEach(topic => {
@@ -195,7 +186,6 @@
       btn.className = 'lesson-btn learn-topic-btn';
       btn.dataset.topic = topic;
       btn.textContent = topic;
-      // add a small checkmark element for completed state
       const check = document.createElement('span');
       check.className = 'lesson-check';
       check.textContent = completedSet.has(topic) ? '✓' : '';
@@ -218,7 +208,6 @@
       return;
     }
 
-    // highlight only the selected topic in the menu (supports both classes)
     const buttons = nav.querySelectorAll('.learn-topic-btn, .lesson-btn');
     buttons.forEach(b => {
       if (b.dataset.topic === topic) {
@@ -235,9 +224,7 @@
     const idx = topics.indexOf(topic);
     currentLessonIndex = idx >= 0 ? idx : 0;
     updateLessonControls();
-    // mark lesson as completed on view
     markCompleted(topic);
-    // update global context/breadcrumb
     if (window.setContextTitle) {
       window.setContextTitle(`Learn → ${lesson.title}`);
     }

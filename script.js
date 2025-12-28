@@ -28,6 +28,9 @@ function showSection(sectionKey) {
 			const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
 			window.setContextTitle(cat ? `Tests → ${cat}` : 'Tests');
 		} else if (sectionKey === 'inspection') {
+			if (window.resetInspectionView) {
+				window.resetInspectionView();
+			}
 			window.setContextTitle('Inspection');
 		} else {
 			window.setContextTitle(sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1));
@@ -60,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	// Hamburger menu logic
 	const hamburger = document.getElementById('hamburger-menu');
 	const mobileNav = document.getElementById('mobile-nav');
 	if (hamburger && mobileNav) {
@@ -70,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			mobileNav.hidden = expanded;
 		});
 
-		// Hide menu when clicking outside
 		document.addEventListener('click', function(e) {
 			if (!mobileNav.hidden && !mobileNav.contains(e.target) && e.target !== hamburger) {
 				mobileNav.hidden = true;
@@ -78,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 
-		// Hide menu on navigation
 		mobileNav.querySelectorAll('.top-nav-btn').forEach(btn => {
 			btn.addEventListener('click', () => {
 				mobileNav.hidden = true;
@@ -87,23 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	// Learn section: Ensure users can always return to main menu and start a test
 	const learnMenu = document.getElementById('learn-menu');
 	if (learnMenu) {
 		learnMenu.addEventListener('click', (e) => {
 			if (e.target.classList.contains('learn-topic-btn')) {
-				// Show loading state
 				document.getElementById('learn-loading').style.display = 'block';
 				document.getElementById('learn-content').style.display = 'none';
 				setTimeout(() => {
-					// Simulate lesson loaded
 					document.getElementById('learn-loading').style.display = 'none';
 					document.getElementById('learn-content').style.display = 'block';
 				}, 600);
 			}
 		});
 	}
-	// Add a button to go directly to Tests from Learn
 	if (learnMenu && !document.getElementById('go-to-tests-btn')) {
 		const goToTestsBtn = document.createElement('button');
 		goToTestsBtn.id = 'go-to-tests-btn';
@@ -116,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		learnMenu.parentElement.appendChild(goToTestsBtn);
 	}
 
-	// Test section: Show loading/empty states, ensure navigation to Results and Progress
 	const testSelectGrid = document.querySelector('.test-select-grid');
 	if (testSelectGrid) {
 		testSelectGrid.addEventListener('click', (e) => {
@@ -130,12 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	}
-	// If no questions, show empty state
 	function showQuizEmpty() {
 		document.getElementById('quiz-empty').style.display = 'block';
 		document.getElementById('quiz').style.display = 'none';
 	}
-	// Add button to go to Progress from Results
 	const resultScreen = document.getElementById('result-screen');
 	if (resultScreen && !document.getElementById('go-to-progress-btn')) {
 		const goToProgressBtn = document.createElement('button');
@@ -149,39 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 		resultScreen.querySelector('.quiz-result-actions').appendChild(goToProgressBtn);
 	}
-
-	// Inspection section: Show loading/empty states, ensure navigation to other sections
-	const checklistBtn = document.getElementById('checklist-mode-btn');
-	if (checklistBtn) {
-		checklistBtn.addEventListener('click', () => {
-			document.getElementById('inspection-checklist-loading').style.display = 'block';
-			setTimeout(() => {
-				document.getElementById('inspection-checklist-loading').style.display = 'none';
-			}, 600);
-		});
-	}
-	const inspectionQuizBtn = document.getElementById('inspection-quiz-btn');
-	if (inspectionQuizBtn) {
-		inspectionQuizBtn.addEventListener('click', () => {
-			document.getElementById('inspection-quiz-loading').style.display = 'block';
-			setTimeout(() => {
-				document.getElementById('inspection-quiz-loading').style.display = 'none';
-			}, 600);
-		});
-	}
-	// Add button to go to Learn from Inspection
-	const inspectionMain = document.getElementById('inspection-main');
-	if (inspectionMain && !document.getElementById('go-to-learn-from-inspection')) {
-		const goToLearnBtn = document.createElement('button');
-		goToLearnBtn.id = 'go-to-learn-from-inspection';
-		goToLearnBtn.textContent = 'Go to Learn';
-		goToLearnBtn.className = 'section-btn';
-		goToLearnBtn.style.marginTop = '10px';
-		goToLearnBtn.addEventListener('click', () => {
-			showSection('learn');
-		});
-		inspectionMain.appendChild(goToLearnBtn);
-	}
 });
 
 document.addEventListener('click', function(e) {
@@ -193,7 +153,6 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Progress section: Show loading/empty states, ensure navigation to Tests
 function renderProgressSection() {
 	document.getElementById('progress-loading').style.display = 'block';
 	document.querySelector('.progress-summary').style.display = 'none';
@@ -248,7 +207,6 @@ function renderProgressSection() {
 			bestList.appendChild(li);
 		});
 
-		// Add button to go to Tests
 		if (!document.getElementById('go-to-tests-from-progress')) {
 			const goToTestsBtn = document.createElement('button');
 			goToTestsBtn.id = 'go-to-tests-from-progress';
@@ -266,11 +224,9 @@ function renderProgressSection() {
 window.setContextTitle = function(text) {
 	const el = document.getElementById('context-title');
 	if (!el) return;
-	// Custom breadcrumb logic
 	const testsSection = document.getElementById('tests-section');
 	const progressSection = document.getElementById('progress-section');
 	if (testsSection && !testsSection.hidden) {
-		// Tests section
 		const catBtn = document.querySelector('.category-btn.active');
 		const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
 		const quizVisible = document.getElementById('quiz') && !document.getElementById('quiz').hidden;
@@ -288,7 +244,6 @@ window.setContextTitle = function(text) {
 		el.textContent = 'Progress → Overview';
 		return;
 	}
-	// Fallback/default
 	el.textContent = String(text || '').trim();
 };
 
