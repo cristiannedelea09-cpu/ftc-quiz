@@ -100,16 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	}
-	if (learnMenu && !document.getElementById('go-to-tests-btn')) {
+	const lessonControls = document.getElementById('lesson-controls');
+	if (learnMenu && lessonControls && !document.getElementById('lesson-go-to-tests')) {
 		const goToTestsBtn = document.createElement('button');
-		goToTestsBtn.id = 'go-to-tests-btn';
+		goToTestsBtn.id = 'lesson-go-to-tests';
 		goToTestsBtn.textContent = 'Go to Tests';
-		goToTestsBtn.className = 'section-btn';
-		goToTestsBtn.style.marginTop = '10px';
+		goToTestsBtn.className = 'btn btn-secondary';
 		goToTestsBtn.addEventListener('click', () => {
 			showSection('tests');
 		});
-		learnMenu.parentElement.appendChild(goToTestsBtn);
+		lessonControls.appendChild(goToTestsBtn);
 	}
 
 	const testSelectGrid = document.querySelector('.test-select-grid');
