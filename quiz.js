@@ -648,21 +648,5 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const testBtns = Array.from(document.querySelectorAll('.test-select-btn'));
-  const categoryNav = document.getElementById('category-select');
-
-  testBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const cat = btn.dataset.cat || 'All';
-
-      const sel = document.getElementById('test-selection');
-      if (sel) sel.hidden = true;
-      if (categoryNav) categoryNav.hidden = false;
-
-      setCategory(cat);
-    });
-  });
 
   renderQuizResultsList();
-});

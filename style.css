@@ -1,4 +1,3 @@
-/* Accessibility improvements */
 :root {
   --text: #f3f7fa;
   --bg: #0a1620;
@@ -13,8 +12,28 @@ body, html {
   font-size: 1.08rem;
   line-height: 1.6;
 }
-
-
+.top-nav-btn, .section-btn, .test-select-btn, .category-btn, .learn-topic-btn, .answer-btn, .lesson-nav-btn, .inspection-btn, .inspection-action-btn, #next-btn, #restart-btn, #retry-incorrect-btn {
+  outline: none;
+  box-shadow: none;
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+.top-nav-btn:focus, .section-btn:focus, .test-select-btn:focus, .category-btn:focus, .learn-topic-btn:focus, .answer-btn:focus, .lesson-nav-btn:focus, .inspection-btn:focus, .inspection-action-btn:focus, #next-btn:focus, #restart-btn:focus, #retry-incorrect-btn:focus {
+  box-shadow: 0 0 0 3px #06b6d4, 0 0 0 6px #fff2 inset;
+  border-color: #06b6d4;
+  z-index: 2;
+}
+.answer-btn.selected:focus {
+  box-shadow: 0 0 0 3px #16a34a, 0 0 0 6px #fff2 inset;
+  border-color: #16a34a;
+}
+.answer-btn.wrong:focus {
+  box-shadow: 0 0 0 3px #c0392b, 0 0 0 6px #fff2 inset;
+  border-color: #c0392b;
+}
+.answer-btn.correct:focus {
+  box-shadow: 0 0 0 3px #16a34a, 0 0 0 6px #fff2 inset;
+  border-color: #16a34a;
+}
 .card-panel, #quiz, #result-screen, .inspection-section-card {
   background: linear-gradient(180deg, #101820 98%, #071021 100%);
   color: var(--text);
@@ -26,7 +45,9 @@ body, html {
   body, html {
     font-size: 1.02rem;
   }
-  
+  .top-nav-btn, .section-btn, .test-select-btn, .category-btn, .learn-topic-btn, .answer-btn, .lesson-nav-btn, .inspection-btn, .inspection-action-btn, #next-btn, #restart-btn, #retry-incorrect-btn {
+    font-size: 1.08rem;
+  }
 }
 
 :root{
@@ -87,9 +108,46 @@ main{
 	font-size:1rem;
 }
 .top-nav-right{display:flex; gap:10px}
+.top-nav-btn{
+	background:transparent;
+	border:1px solid rgba(255,255,255,0.04);
+	color:var(--text);
+	padding:8px 10px;
+	border-radius:8px;
+	cursor:pointer;
+	font-size:0.95rem;
+	display:inline-flex;
+	align-items:center;
+	justify-content:center;
+	min-height:40px;
+	min-width:44px;
+	touch-action:manipulation;
+	-webkit-tap-highlight-color: rgba(255,255,255,0.06);
+}
+.top-nav-btn:hover{background:rgba(255,255,255,0.02)}
 
+.top-nav-btn.active{
+	background:linear-gradient(90deg, rgba(6,182,212,0.12), rgba(6,182,212,0.06));
+	border-color:rgba(6,182,212,0.24);
+	color:#022129;
+	font-weight:700;
+	box-shadow:0 8px 24px rgba(6,182,212,0.06);
+}
+.top-nav-btn:focus{box-shadow:0 0 0 4px rgba(6,182,212,0.12); outline:none}
 
+.top-nav-btn:disabled, .top-nav-btn.disabled{
+	opacity:0.46;
+	cursor:default;
+	pointer-events:none;
+	transform:none;
+}
 
+@media (max-width:640px){
+	#top-nav{padding:8px 12px; height:72px}
+	.logo{font-size:0.95rem}
+	.top-nav-right{gap:10px; overflow:auto; -webkit-overflow-scrolling:touch; padding-bottom:4px}
+	.top-nav-btn{padding:10px 14px; font-size:1rem; min-width:56px; min-height:44px; border-radius:10px}
+}
 
 header{
 	text-align:left;
@@ -101,90 +159,12 @@ header h1{
 	letter-spacing:0.2px;
 }
 
-.btn {
-    outline: none;
-    box-shadow: none;
-    transition: box-shadow 0.18s, border-color 0.18s;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 10px;
-    padding: 10px 16px;
-    text-align: center;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.06);
-}
-
-.btn:focus {
-    box-shadow: 0 0 0 3px var(--accent), 0 0 0 6px #fff2 inset;
-    border-color: var(--accent);
-    z-index: 2;
-}
-
-.top-nav-btn {
-    margin-bottom: 10px;
-    font-size: 1.08rem;
-    padding: 14px 0;
-}
-
-.answer-btn {
-    padding: 14px;
-}
-
-.learn-topic-btn {
-    padding: 8px 10px;
-    font-size: 0.95rem;
-}
-
-#category-select > button,
-#lesson-nav > button {
-    /* Base btn styles will be applied via class in HTML */
-    /* Secondary button styles will be applied via class in HTML */
-    /* Add any specific overrides here if needed */
-}
-
-.btn-primary {
-    background: var(--accent);
-    border: none;
-    color: #022129;
-    font-weight: 600;
-}
-
-.btn-primary:hover:not(:disabled) {
-    background: var(--accent-600);
-    transform: translateY(-2px);
-}
-
-.btn-primary:disabled {
-    opacity: 0.5;
-    cursor: default;
-}
-
-.btn-block {
-  display: block;
-  width: 100%;
-}
-
-.btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    color: var(--text);
-}
-
-.btn-secondary:hover {
-    background: rgba(6,182,212,0.04);
-}
-
 #context-title{
     font-size:0.95rem;
     color:var(--muted);
     margin-top:4px;
 }
 
-/* Section page styles — make Learn/Tests/Inspection feel like distinct pages */
 section[id$="-section"]{
 	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
 	border-radius: calc(var(--radius) + 4px);
@@ -202,7 +182,6 @@ section[id$="-section"]:not([hidden]) {
     align-items:flex-start;
 }
 
-/* Smooth transitions for section switching */
 section[id$="-section"] {
   transition: opacity 0.28s cubic-bezier(.4,0,.2,1), transform 0.28s cubic-bezier(.4,0,.2,1);
   opacity: 1;
@@ -214,7 +193,6 @@ section[id$="-section"][hidden] {
   pointer-events: none;
 }
 
-/* Progress section styles */
 #progress-section {
 	max-width: 420px;
 	margin: 0 auto;
@@ -279,7 +257,6 @@ section[id$="-section"][hidden] {
 	font-weight: bold;
 }
 
-/* Subtle left accent to differentiate sections */
 #learn-section{ border-left:6px solid rgba(6,182,212,0.10); }
 #tests-section{ border-left:6px solid rgba(99,102,241,0.10); }
 #inspection-section{ border-left:6px solid rgba(16,185,129,0.10); }
@@ -339,9 +316,41 @@ section[id$="-section"][hidden] {
 	margin-bottom:18px;
 }
 
+.answer-btn{
+	background:var(--glass);
+	border:1px solid rgba(255,255,255,0.04);
+	color:var(--text);
+	padding:12px 14px;
+	border-radius:10px;
+	font-size:0.98rem;
+	cursor:pointer;
+	transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+	text-align:left;
+	min-height:48px;
+	display:flex;
+	align-items:center;
+	gap:10px;
+}
 
+.answer-btn:hover{transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+.answer-btn:disabled{opacity:0.7; cursor:default; transform:none; box-shadow:none}
 
+.answer-btn.selected{outline:2px solid rgba(255,255,255,0.04)}
+.answer-btn.correct{background:linear-gradient(90deg, rgba(22,163,74,0.12), rgba(22,163,74,0.06)); border-color:rgba(22,163,74,0.25)}
+.answer-btn.wrong{background:linear-gradient(90deg, rgba(239,68,68,0.06), rgba(239,68,68,0.03)); border-color:rgba(239,68,68,0.25)}
 
+#next-btn{
+	background:var(--accent);
+	border:none;
+	color:#022129;
+	padding:10px 16px;
+	border-radius:10px;
+	font-weight:600;
+	cursor:pointer;
+	transition:background .12s ease, transform .08s ease;
+}
+#next-btn:disabled{opacity:0.5; cursor:default}
+#next-btn:hover:not(:disabled){background:var(--accent-600); transform:translateY(-2px)}
 
 
 #result-screen{
@@ -356,7 +365,15 @@ section[id$="-section"][hidden] {
 
 #result-screen h2{margin-top:0}
 
-
+#restart-btn{
+	margin-top:12px;
+	background:transparent;
+	border:1px solid rgba(255,255,255,0.06);
+	color:var(--text);
+	padding:10px 14px;
+	border-radius:10px;
+	cursor:pointer;
+}
 
 .quiz-result-summary {
 	margin: 0 0 18px 0;
@@ -407,12 +424,15 @@ section[id$="-section"][hidden] {
 }
 
 :focus{outline:none}
-
+.answer-btn:focus, #next-btn:focus, #restart-btn:focus{
+	box-shadow:0 0 0 3px rgba(6,182,212,0.12);
+	transform:translateY(-1px);
+}
 
 @media (max-width:640px){
 	#answers{grid-template-columns:1fr;}
 	body{padding:18px}
-	
+	.answer-btn{font-size:1rem; padding:14px}
 	header h1{font-size:1.1rem}
 }
 
@@ -424,20 +444,35 @@ section[id$="-section"][hidden] {
 	margin:12px 0 18px 0;
 	flex-wrap:wrap;
 }
-
+.category-btn{
+	background:transparent;
+	border:1px solid rgba(255,255,255,0.04);
+	color:var(--text);
+	padding:6px 10px;
+	border-radius:8px;
+	cursor:pointer;
+	font-size:0.9rem;
+}
+.category-btn.active{
+	background:linear-gradient(90deg, rgba(6,182,212,0.12), rgba(6,182,212,0.06));
+	border-color:rgba(6,182,212,0.24);
+}
 
 #lesson-nav{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+.lesson-btn{background:transparent; border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px; color:var(--text); cursor:pointer}
+.lesson-btn.active{background:rgba(255,255,255,0.02); border-color:rgba(255,255,255,0.06)}
+.lesson-controls{display:flex; gap:8px; justify-content:flex-end; margin-top:12px}
+.lesson-nav-btn{background:var(--accent); color:#022129; border:none; padding:8px 12px; border-radius:8px; cursor:pointer}
+.lesson-nav-btn:disabled{opacity:0.5; cursor:default}
 
-
-/* Learn menu and content area */
 #learn-menu{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
-
+.learn-topic-btn{background:transparent; border:1px solid rgba(255,255,255,0.04); padding:8px 12px; border-radius:10px; color:var(--text); cursor:pointer}
+.learn-topic-btn.active{background:linear-gradient(90deg, rgba(99,102,241,0.10), rgba(6,182,212,0.06)); border-color:rgba(99,102,241,0.16); font-weight:700}
 
 #learn-content{background:transparent; padding:12px 0}
 .learn-title{margin:0 0 8px 0; font-size:1.15rem}
 .learn-body{font-size:0.98rem; line-height:1.45}
 
-/* Checkmark for completed lessons in the learn menu */
 .lesson-check{
 	display:inline-block;
 	margin-left:8px;
@@ -446,7 +481,6 @@ section[id$="-section"][hidden] {
 	font-size:0.95rem;
 }
 
-/* Lesson content improvements: spacing, lists, tips highlight, mobile layout */
 .lesson-body{
 	margin: 6px 0 14px 0;
 	font-size: 1rem;
@@ -470,16 +504,14 @@ section[id$="-section"][hidden] {
 }
 .tips-body ul{ margin: 6px 0 0 1.05rem; }
 
-/* Make learn content more readable on small screens */
+
 @media (max-width:640px){
 	.lesson-body{ font-size:1.02rem; line-height:1.55; }
 	.tips-body{ padding:10px; font-size:0.95rem }
 	#learn-menu{ gap:6px }
-	
+	.learn-topic-btn{ padding:8px 10px; font-size:0.95rem }
 }
 
-
-/* --- Inspection section UI improvements --- */
 
 #inspection-section {
 	justify-content: center;
@@ -488,23 +520,7 @@ section[id$="-section"][hidden] {
 }
 #inspection-section.content-visible {
 	justify-content: flex-start;
-	/* Revert to the default for sections */
 	align-items: flex-start;
-}
-
-#inspection-header {
-	width: 100%;
-	text-align: center;
-}
-#inspection-section.content-visible #inspection-header {
-	text-align: left;
-}
-#inspection-title {
-	margin-bottom: 0.25em;
-}
-#inspection-subtitle {
-	margin-top: 0;
-	margin-bottom: 1.5em;
 }
 
 #inspection-main {
@@ -515,17 +531,23 @@ section[id$="-section"][hidden] {
 	display: block;
 }
 
+#inspection-controls {
+	text-align: center;
+	margin-bottom: 1em;
+}
+
 .inspection-btns {
     display: flex;
     gap: 12px;
     justify-content: center;
     margin-top: 8px;
 }
-#inspection-section.content-visible .inspection-btns {
-	justify-content: flex-start;
+
+.inspection-btn.active{
+	background:linear-gradient(90deg, rgba(16,185,129,0.12), rgba(16,185,129,0.06));
+	border-color:rgba(16,185,129,0.24);
+	font-weight: 700;
 }
-
-
 
 .inspection-section-card {
 	background: var(--card-bg, #23272e);
@@ -616,7 +638,6 @@ section[id$="-section"][hidden] {
 	border: 1.5px solid #ddd;
 }
 
-/* Section separation for Inspection */
 #inspection-section {
 	max-width: 600px;
 	margin: 0 auto;
@@ -630,7 +651,6 @@ section[id$="-section"][hidden] {
 	padding-bottom: 0.2em;
 }
 
-/* Responsive/mobile-friendly layout */
 @media (max-width: 600px) {
 	#inspection-section {
 		max-width: 100vw;
@@ -654,9 +674,6 @@ section[id$="-section"][hidden] {
 	}
 }
 
-/* Layout improvements for all sections */
-
-/* Card consistency for all major panels */
 .card-panel {
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
     border-radius: var(--radius);
@@ -672,8 +689,6 @@ section[id$="-section"][hidden] {
 	background: linear-gradient(180deg, rgba(6,182,212,0.04), rgba(255,255,255,0.01));
 }
 
-
-/* Hamburger menu styles */
 .hamburger {
   display: none;
   background: none;
@@ -708,7 +723,14 @@ section[id$="-section"][hidden] {
   border-bottom-right-radius: 12px;
   animation: fadeInDown 0.22s;
 }
-
+#mobile-nav .top-nav-btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 1.08rem;
+  padding: 14px 0;
+  border-radius: 10px;
+}
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-16px); }
   to { opacity: 1; transform: translateY(0); }
@@ -759,7 +781,14 @@ section[id$="-section"][hidden] {
     flex-wrap: wrap;
     padding-bottom: 2px;
   }
-  
+  .top-nav-btn {
+    padding: 10px 10px;
+    font-size: 1.04rem;
+    min-width: 44px;
+    min-height: 40px;
+    border-radius: 10px;
+    touch-action: manipulation;
+  }
   section[id$="-section"] {
     padding: 8px 4px;
     margin: 6px 0;
@@ -775,14 +804,35 @@ section[id$="-section"][hidden] {
     gap: 4px;
     flex-wrap: wrap;
   }
-  
+  .learn-topic-btn, .category-btn, .test-select-btn {
+    padding: 8px 8px;
+    font-size: 1rem;
+    border-radius: 8px;
+    min-width: 44px;
+    min-height: 36px;
+    touch-action: manipulation;
+  }
   #answers {
     grid-template-columns: 1fr;
     gap: 8px;
     margin-bottom: 10px;
   }
-  
-  
+  .answer-btn {
+    font-size: 1.04rem;
+    padding: 12px 10px;
+    min-height: 44px;
+    border-radius: 10px;
+    width: 100%;
+    touch-action: manipulation;
+  }
+  #next-btn, #restart-btn, #retry-incorrect-btn, .lesson-nav-btn, .inspection-action-btn {
+    font-size: 1.04rem;
+    padding: 10px 12px;
+    border-radius: 10px;
+    min-width: 44px;
+    min-height: 36px;
+    touch-action: manipulation;
+  }
   .quiz-result-summary, .quiz-result-row {
     gap: 6px;
     font-size: 1rem;
@@ -820,7 +870,6 @@ section[id$="-section"][hidden] {
   }
 }
 
-/* Quiz question fade-in */
 #question, #answers, #explanation {
   transition: opacity 0.22s cubic-bezier(.4,0,.2,1), transform 0.22s cubic-bezier(.4,0,.2,1);
   opacity: 1;
@@ -831,7 +880,6 @@ section[id$="-section"][hidden] {
   transform: translateY(16px);
 }
 
-/* Result screen fade-in */
 #result-screen {
   transition: opacity 0.32s cubic-bezier(.4,0,.2,1), transform 0.32s cubic-bezier(.4,0,.2,1);
   opacity: 1;
@@ -842,3 +890,4 @@ section[id$="-section"][hidden] {
   transform: scale(0.98);
   pointer-events: none;
 }
+

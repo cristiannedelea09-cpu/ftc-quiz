@@ -12,9 +12,9 @@
 			<span class="logo">FTC Trainer</span>
 		</div>
 			<div class="top-nav-right">
-				<button class="btn btn-secondary" data-section="learn">Learn</button>
-				<button class="btn btn-secondary" data-section="tests">Tests</button>
-				<button class="btn btn-secondary" data-section="inspection">Inspection</button>
+				<button class="top-nav-btn btn btn-primary" data-section="learn">Learn</button>
+				<button class="top-nav-btn btn btn-primary" data-section="tests">Tests</button>
+				<button class="top-nav-btn btn btn-primary" data-section="inspection">Inspection</button>
 			</div>
 			<button class="hamburger" id="hamburger-menu" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false" style="display:none;">
 				<span></span>
@@ -24,9 +24,9 @@
 		</nav>
 
 	<nav id="mobile-nav" role="navigation" aria-label="Mobile navigation" hidden>
-		<button class="btn btn-secondary" data-section="learn">Learn</button>
-		<button class="btn btn-secondary" data-section="tests">Tests</button>
-		<button class="btn btn-secondary" data-section="inspection">Inspection</button>
+		<button class="top-nav-btn btn btn-primary btn-block" data-section="learn">Learn</button>
+		<button class="top-nav-btn btn btn-primary btn-block" data-section="tests">Tests</button>
+		<button class="top-nav-btn btn btn-primary btn-block" data-section="inspection">Inspection</button>
 	</nav>
 
 	<header>
@@ -37,11 +37,11 @@
 	<main>
 		<section id="learn-section">
 			<nav id="learn-menu" aria-label="Learn topics">
-				<button class="btn btn-secondary active" data-topic="Autonomous">Autonomous</button>
-				<button class="btn btn-secondary" data-topic="TeleOp">TeleOp</button>
-				<button class="btn btn-secondary" data-topic="Endgame">Endgame</button>
-				<button class="btn btn-secondary" data-topic="Penalties">Penalties</button>
-				<button class="btn btn-secondary" data-topic="Roles">Roles</button>
+				<button class="learn-topic-btn active" data-topic="Autonomous">Autonomous</button>
+				<button class="learn-topic-btn" data-topic="TeleOp">TeleOp</button>
+				<button class="learn-topic-btn" data-topic="Endgame">Endgame</button>
+				<button class="learn-topic-btn" data-topic="Penalties">Penalties</button>
+				<button class="learn-topic-btn" data-topic="Roles">Roles</button>
 			</nav>
 
 			<div id="learn-loading" class="muted" style="display:none; text-align:center; margin:24px 0;">Loading lesson...</div>
@@ -53,31 +53,20 @@
 			</div>
 			
 			<div id="lesson-controls" class="lesson-controls">
-				<button id="lesson-prev" class="btn btn-primary" aria-label="Previous lesson" disabled>Previous</button>
-				<button id="lesson-next" class="btn btn-primary" aria-label="Next lesson">Next</button>
+				<button id="lesson-prev" class="lesson-nav-btn btn btn-secondary" aria-label="Previous lesson" disabled>Previous</button>
+				<button id="lesson-next" class="lesson-nav-btn btn btn-secondary" aria-label="Next lesson">Next</button>
 			</div>
 		</section>
 
 		<section id="tests-section" hidden>
-			<div id="test-selection">
-				<p class="muted">Select a test to begin:</p>
-				<div class="test-select-grid">
-					<button class="btn btn-secondary" data-cat="Human Player">Human Player</button>
-					<button class="btn btn-secondary" data-cat="Driver">Driver</button>
-					<button class="btn btn-secondary" data-cat="Coach">Coach</button>
-					<button class="btn btn-secondary" data-cat="Robot Inspection">Robot Inspection</button>
-				</div>
-	            <div style="margin-top:1em;">
-	                <button class="btn btn-secondary" data-section="progress">View Progress</button>
-	            </div>
-			</div>
 
-			<nav id="category-select" aria-label="Select category" hidden>
-				<button class="btn btn-secondary active" data-cat="All">All</button>
-				<button class="btn btn-secondary" data-cat="Human Player">Human Player</button>
-				<button class="btn btn-secondary" data-cat="Driver">Driver</button>
-				<button class="btn btn-secondary" data-cat="Coach">Coach</button>
-				<button class="btn btn-secondary" data-cat="Robot Inspection">Robot Inspection</button>
+
+			<nav id="category-select" aria-label="Select category">
+				<button class="category-btn active btn btn-secondary" data-cat="All">All</button>
+				<button class="category-btn btn btn-secondary" data-cat="Human Player">Human Player</button>
+				<button class="category-btn btn btn-secondary" data-cat="Driver">Driver</button>
+				<button class="category-btn btn btn-secondary" data-cat="Coach">Coach</button>
+				<button class="category-btn btn btn-secondary" data-cat="Robot Inspection">Robot Inspection</button>
 			</nav>
 
 			<section id="quiz" aria-live="polite" hidden>
@@ -92,10 +81,10 @@
 				<p id="question">Question text will appear here.</p>
 
 				<div id="answers" role="group" aria-label="Answer choices">
-					<button class="btn btn-secondary" data-index="0">Answer 1</button>
-					<button class="btn btn-secondary" data-index="1">Answer 2</button>
-					<button class="btn btn-secondary" data-index="2">Answer 3</button>
-					<button class="btn btn-secondary" data-index="3">Answer 4</button>
+					<button class="answer-btn btn btn-secondary" data-index="0">Answer 1</button>
+					<button class="answer-btn btn btn-secondary" data-index="1">Answer 2</button>
+					<button class="answer-btn btn btn-secondary" data-index="2">Answer 3</button>
+					<button class="answer-btn btn btn-secondary" data-index="3">Answer 4</button>
 				</div>
 
 				<p id="explanation" class="muted" aria-live="polite" hidden></p>
@@ -114,7 +103,7 @@
 					<div class="quiz-result-row"><span class="qrs-label">Result:</span> <span id="final-score-passfail" class="qrs-passfail">-</span></div>
 				</div>
 				<div class="quiz-result-actions">
-					<button id="restart-btn" class="btn btn-secondary">Restart Quiz</button>
+					<button id="restart-btn" class="btn btn-primary">Restart Quiz</button>
 					<button id="retry-incorrect-btn" class="btn btn-secondary" style="margin-left:10px;">Retry Incorrect</button>
 				</div>
 			</section>
@@ -129,19 +118,16 @@
 				<div><strong>Average Score:</strong> <span id="progress-average-score">0%</span></div>
 				<div><strong>Best Score Per Test Type:</strong></div>
 				<ul id="progress-best-scores"></ul>
-				<button id="reset-progress-btn" class="btn btn-secondary" style="margin-top:18px;">Reset Progress</button>
+				<button id="reset-progress-btn" style="margin-top:18px;">Reset Progress</button>
 			</div>
 		</section>
 
 		<section id="inspection-section" hidden>
-			<div id="inspection-header">
-				<h2 id="inspection-title">Inspection</h2>
-				<p id="inspection-subtitle" class="muted">Select a tool to begin.</p>
-				<div id="inspection-controls" class="inspection-controls">
-					<div class="inspection-btns">
-						<button id="inspection-mode-checklist" class="btn btn-secondary" aria-controls="inspection-checklist">Inspection Checklist</button>
-						<button id="inspection-mode-quiz" class="btn btn-secondary" aria-controls="inspection-quiz">Inspection Quiz</button>
-					</div>
+			<div id="inspection-controls" class="inspection-controls">
+				<p class="muted">Inspection tools:</p>
+				<div class="inspection-btns">
+					<button id="inspection-mode-checklist" class="inspection-btn btn btn-secondary" aria-controls="inspection-checklist">Inspection Checklist</button>
+					<button id="inspection-mode-quiz" class="inspection-btn btn btn-secondary" aria-controls="inspection-quiz">Inspection Quiz</button>
 				</div>
 			</div>
 
@@ -149,35 +135,38 @@
 				<section id="inspection-checklist" class="inspection-panel" hidden>
 					<div id="inspection-checklist-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading checklist...</div>
 					<div id="inspection-checklist-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No checklist items available.</div>
+					<h2>Inspection Checklist</h2>
+					<p class="muted">Use this checklist to verify robot compliance before matches.</p>
 					<ul id="checklist-items">
 						<li>Placeholder: Team ID visible and secured</li>
 						<li>Placeholder: Battery safely secured and covered</li>
 						<li>Placeholder: No exposed sharp edges or hazards</li>
 					</ul>
 					<div class="inspection-actions">
-						<button id="start-checklist-btn" class="btn btn-primary">Start Checklist</button>
-						<button id="print-checklist-btn" class="btn btn-primary">Print/Export</button>
+						<button id="start-checklist-btn" class="inspection-action-btn btn btn-primary">Start Checklist</button>
+						<button id="print-checklist-btn" class="inspection-action-btn btn btn-primary">Print/Export</button>
 					</div>
 				</section>
 
 				<section id="inspection-quiz" class="inspection-panel" hidden>
 					<div id="inspection-quiz-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading inspection quiz...</div>
 					<div id="inspection-quiz-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No inspection questions available.</div>
+					<h2>Inspection Quiz</h2>
+					<p class="muted">Practice spotting legal vs illegal scenarios during inspection.</p>
 					<div id="inspection-quiz-ui">
 						<div id="inspection-quiz-progress" class="muted">Question 0 / 0</div>
 						<div id="inspection-quiz-score" class="muted">Score: 0</div>
 						<div id="inspection-question" class="inspection-question">Click Start to begin the quiz.</div>
 						<div id="inspection-answers" class="inspection-answers">
-							<button class="btn btn-secondary" data-answer="LEGAL">LEGAL</button>
-							<button class="btn btn-secondary" data-answer="ILLEGAL">ILLEGAL</button>
+							<button class="inspection-answer-btn btn btn-primary" data-answer="LEGAL">LEGAL</button>
+							<button class="inspection-answer-btn btn btn-primary" data-answer="ILLEGAL">ILLEGAL</button>
 						</div>
 						<div id="inspection-explanation" class="muted" hidden></div>
-						<div class="inspection-actions">
-							<button id="start-inspection-quiz-btn" class="btn btn-primary">Start Inspection Quiz</button>
-							<button id="inspection-next-btn" class="btn btn-primary" hidden>Next</button>
-							<button id="inspection-restart-btn" class="btn btn-primary" hidden>Restart</button>
-						</div>
-					</div>
+											<div class="inspection-actions">
+												<button id="start-inspection-quiz-btn" class="inspection-action-btn btn btn-primary">Start Inspection Quiz</button>
+												<button id="inspection-next-btn" class="inspection-action-btn btn btn-primary" hidden>Next</button>
+												<button id="inspection-restart-btn" class="inspection-action-btn btn btn-primary" hidden>Restart</button>
+											</div>					</div>
 				</section>
 			</div>
 		</section>
