@@ -30,6 +30,8 @@ function showSection(sectionKey) {
 			if (window.quizUtils && typeof window.quizUtils.setCategory === 'function') {
 				window.quizUtils.setCategory('All');
 			}
+		} else if (sectionKey === 'about') {
+			window.setContextTitle('About');
 		} else {
 			window.setContextTitle(sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1));
 		}
