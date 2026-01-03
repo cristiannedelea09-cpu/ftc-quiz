@@ -277,7 +277,7 @@ section[id$="-section"][hidden] {
 
 
 #learn-section{ border-left:6px solid rgba(6,182,212,0.10); }
-#inspection-section{ border-left:6px solid rgba(16,185,129,0.10);margin-top: 20000px;}
+#inspection-section{ border-left:6px solid rgba(16,185,129,0.10);margin-top: 1600px;}
 #about-section{ border-left:6px solid rgba(255, 165, 0, 0.10); margin-top: 2300px; }
 #privacy-section{ border-left:6px solid rgba(16,185,129,0.10); } /* Consistent with inspection for now */
 #contact-section{ border-left:6px solid rgba(99,102,241,0.10); } /* Using a new color for variety */
@@ -529,7 +529,7 @@ section[id$="-section"][hidden] {
 	/* Layout now inherits from section[id$="-section"] to match Quiz layout */
 }
 #inspection-section h2 {
-	margin-top: 1600px;
+	margin-top: 200000px;
 	margin-bottom: 1.2em;
 	font-size: 1.5em;
 	border-bottom: 2px solid var(--accent, #4e8cff);
