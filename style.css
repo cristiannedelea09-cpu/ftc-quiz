@@ -529,7 +529,7 @@ section[id$="-section"][hidden] {
 	/* Layout now inherits from section[id$="-section"] to match Quiz layout */
 }
 #inspection-section h2 {
-	margin-top: 1600px;
+	margin-top: 1000px;
 	margin-bottom: 1.2em;
 	font-size: 1.5em;
 	border-bottom: 2px solid var(--accent, #4e8cff);
