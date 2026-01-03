@@ -762,6 +762,13 @@ section[id$="-section"][hidden] {
   transform: translateY(16px);
 }
 
+.feedback-note {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
 #result-screen {
   transition: opacity 0.32s cubic-bezier(.4,0,.2,1), transform 0.32s cubic-bezier(.4,0,.2,1);
   opacity: 1;
@@ -779,4 +786,3 @@ section[id$="-section"][hidden] {
 		gap: 10px;
 	}
 }
-
