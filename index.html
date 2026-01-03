@@ -12,9 +12,9 @@
 			<span class="logo">FTC Trainer</span>
 		</div>
 			<div class="top-nav-right">
-				<button class="top-nav-btn btn btn-primary" data-section="learn">Learn</button>
-				<button class="top-nav-btn btn btn-primary" data-section="tests">Tests</button>
-				<button class="top-nav-btn btn btn-primary" data-section="inspection">Inspection</button>
+				<button class="top-nav-btn" data-section="learn">Learn</button>
+				<button class="top-nav-btn" data-section="inspection">Inspection</button>
+				<button class="top-nav-btn" data-section="quiz">Quiz</button>
 			</div>
 			<button class="hamburger" id="hamburger-menu" aria-label="Open navigation" aria-controls="mobile-nav" aria-expanded="false" style="display:none;">
 				<span></span>
@@ -24,9 +24,9 @@
 		</nav>
 
 	<nav id="mobile-nav" role="navigation" aria-label="Mobile navigation" hidden>
-		<button class="top-nav-btn btn btn-primary btn-block" data-section="learn">Learn</button>
-		<button class="top-nav-btn btn btn-primary btn-block" data-section="tests">Tests</button>
-		<button class="top-nav-btn btn btn-primary btn-block" data-section="inspection">Inspection</button>
+		<button class="top-nav-btn btn-block" data-section="learn">Learn</button>
+		<button class="top-nav-btn btn-block" data-section="inspection">Inspection</button>
+		<button class="top-nav-btn btn-block" data-section="quiz">Quiz</button>
 	</nav>
 
 	<header>
@@ -53,128 +53,72 @@
 			</div>
 			
 			<div id="lesson-controls" class="lesson-controls">
-				<button id="lesson-prev" class="lesson-nav-btn btn btn-primary" aria-label="Previous lesson" disabled>Previous</button>
-				<button id="lesson-next" class="lesson-nav-btn btn btn-primary" aria-label="Next lesson">Next</button>
-			</div>
-		</section>
-
-		<section id="tests-section" hidden>
-
-
-			<nav id="category-select" aria-label="Select category">
-				<button class="category-btn active btn btn-secondary" data-cat="All">All</button>
-				<button class="category-btn btn btn-secondary" data-cat="Human Player">Human Player</button>
-				<button class="category-btn btn btn-secondary" data-cat="Driver">Driver</button>
-				<button class="category-btn btn btn-secondary" data-cat="Coach">Coach</button>
-				<button class="category-btn btn btn-secondary" data-cat="Robot Inspection">Robot Inspection</button>
-			</nav>
-
-			<section id="quiz" aria-live="polite" hidden>
-				<div id="quiz-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading quiz...</div>
-				<div id="quiz-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No questions available for this test.</div>
-				<p id="score">Score: <span id="score-value">0</span></p>
-				<div id="progress" aria-hidden="false">
-					<div id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
-					<div id="progress-text" class="muted">Question 0 / 0</div>
-				</div>
-
-				<p id="question">Question text will appear here.</p>
-
-				<div id="answers" role="group" aria-label="Answer choices">
-					<button class="answer-btn btn btn-secondary" data-index="0">Answer 1</button>
-					<button class="answer-btn btn btn-secondary" data-index="1">Answer 2</button>
-					<button class="answer-btn btn btn-secondary" data-index="2">Answer 3</button>
-					<button class="answer-btn btn btn-secondary" data-index="3">Answer 4</button>
-				</div>
-
-				<p id="explanation" class="muted" aria-live="polite" hidden></p>
-
-				<button id="next-btn" class="btn btn-primary" disabled>Next</button>
-			</section>
-
-			<section id="result-screen" hidden>
-				<div id="result-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading results...</div>
-				<div id="result-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No results to show yet.</div>
-				<h2>Quiz Results</h2>
-				<div id="quiz-result-summary" class="quiz-result-summary">
-					<div class="quiz-result-row"><span class="qrs-label">Score:</span> <span id="final-score-value">0</span> / <span id="final-score-total">0</span></div>
-					<div class="quiz-result-row"><span class="qrs-label">Percentage:</span> <span id="final-score-percent">0%</span></div>
-					<div class="quiz-result-row"><span class="qrs-label">Correct:</span> <span id="final-score-correct">0</span> &nbsp; <span class="qrs-label">Incorrect:</span> <span id="final-score-incorrect">0</span></div>
-					<div class="quiz-result-row"><span class="qrs-label">Result:</span> <span id="final-score-passfail" class="qrs-passfail">-</span></div>
-				</div>
-				<div class="quiz-result-actions">
-					<button id="restart-btn" class="btn btn-primary">Restart Quiz</button>
-					<button id="retry-incorrect-btn" class="btn btn-secondary" style="margin-left:10px;">Retry Incorrect</button>
-				</div>
-			</section>
-		</section>
-
-		<section id="progress-section" hidden>
-			<h2>Progress</h2>
-			<div id="progress-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading progress...</div>
-			<div id="progress-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No quiz results yet. Take a test to see your progress!</div>
-			<div class="progress-summary">
-				<div><strong>Total Quizzes Taken:</strong> <span id="progress-total-quizzes">0</span></div>
-				<div><strong>Average Score:</strong> <span id="progress-average-score">0%</span></div>
-				<div><strong>Best Score Per Test Type:</strong></div>
-				<ul id="progress-best-scores"></ul>
-				<button id="reset-progress-btn" style="margin-top:18px;">Reset Progress</button>
+				<button id="lesson-prev" class="lesson-nav-btn" aria-label="Previous lesson" disabled>Previous</button>
+				<button id="lesson-next" class="lesson-nav-btn" aria-label="Next lesson">Next</button>
 			</div>
 		</section>
 
 		<section id="inspection-section" hidden>
-			<div id="inspection-controls" class="inspection-controls">
-				<p class="muted">Inspection tools:</p>
-				<div class="inspection-btns">
-					<button id="inspection-mode-checklist" class="btn btn-secondary" aria-controls="inspection-checklist">Inspection Checklist</button>
-					<button id="inspection-mode-quiz" class="btn btn-secondary" aria-controls="inspection-quiz">Inspection Quiz</button>
-				</div>
-			</div>
-
-			<div id="inspection-main" class="inspection-main">
-				<section id="inspection-checklist" class="inspection-panel" hidden>
-					<div id="inspection-checklist-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading checklist...</div>
-					<div id="inspection-checklist-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No checklist items available.</div>
-					<h2>Inspection Checklist</h2>
-					<p class="muted">Use this checklist to verify robot compliance before matches.</p>
-					<ul id="checklist-items">
-						<li>Placeholder: Team ID visible and secured</li>
-						<li>Placeholder: Battery safely secured and covered</li>
-						<li>Placeholder: No exposed sharp edges or hazards</li>
-					</ul>
-					<div class="inspection-actions">
-						<button id="start-checklist-btn" class="btn btn-primary">Start Checklist</button>
-						<button id="print-checklist-btn" class="btn btn-primary">Print/Export</button>
-					</div>
-				</section>
-
-				<section id="inspection-quiz" class="inspection-panel" hidden>
-					<div id="inspection-quiz-loading" class="muted" style="display:none; text-align:center; margin:18px 0;">Loading inspection quiz...</div>
-					<div id="inspection-quiz-empty" class="muted" style="display:none; text-align:center; margin:18px 0;">No inspection questions available.</div>
-					<h2>Inspection Quiz</h2>
-					<p class="muted">Practice spotting legal vs illegal scenarios during inspection.</p>
-					<div id="inspection-quiz-ui">
-						<div id="inspection-quiz-progress" class="muted">Question 0 / 0</div>
-						<div id="inspection-quiz-score" class="muted">Score: 0</div>
-						<div id="inspection-question" class="inspection-question">Click Start to begin the quiz.</div>
-						<div id="inspection-answers" class="inspection-answers">
-							<button class="btn btn-primary" data-answer="LEGAL">LEGAL</button>
-							<button class="btn btn-primary" data-answer="ILLEGAL">ILLEGAL</button>
-						</div>
-						<div id="inspection-explanation" class="muted" hidden></div>
-											<div class="inspection-actions">
-												<button id="start-inspection-quiz-btn" class="btn btn-primary">Start Inspection Quiz</button>
-												<button id="inspection-next-btn" class="btn btn-primary" hidden>Next</button>
-												<button id="inspection-restart-btn" class="btn btn-primary" hidden>Restart</button>
-											</div>					</div>
-				</section>
+			<div id="inspection-checklist">
+				<h2>Inspection Checklist</h2>
+				<ul id="checklist-items"></ul>
 			</div>
 		</section>
+
+		<section id="quiz-section" hidden>
+            <div id="quiz-controls">
+                <div id="category-buttons" class="category-buttons">
+                    <button class="category-btn active" data-cat="All">All</button>
+                    <button class="category-btn" data-cat="Human Player">Human Player</button>
+                    <button class="category-btn" data-cat="Driver">Driver</button>
+                    <button class="category-btn" data-cat="Coach">Coach</button>
+                </div>
+            </div>
+            <div id="quiz">
+                <div class="score-display">Score: <span id="score-value">0</span></div>
+                <div id="progress-container">
+                    <div id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div id="progress-text">Question 0 / 0</div>
+                </div>
+                <h2 id="question">Question text goes here.</h2>
+                <div id="answer-options">
+                    <button class="answer-btn"></button>
+                    <button class="answer-btn"></button>
+                    <button class="answer-btn"></button>
+                    <button class="answer-btn"></button>
+                </div>
+                <div id="explanation" class="explanation" hidden></div>
+                <button id="next-btn" class="btn btn-primary" disabled>Next</button>
+            </div>
+            <div id="result-screen" class="result-screen" hidden>
+                <h2>Quiz Results</h2>
+                <div class="qrs-row">
+                    <div class="qrs-value"><span id="final-score-correct">0</span> / <span id="final-score-total">0</span></div>
+                    <div class="qrs-label">Score</div>
+                </div>
+                <div class="qrs-row">
+                    <div class="qrs-value" id="final-score-percent">0%</div>
+                    <div class="qrs-label">Percent</div>
+                </div>
+                <div id="final-score-passfail" class="qrs-passfail qrs-fail">FAIL</div>
+                <div class="result-actions">
+                    <button id="restart-btn" class="btn btn-primary">Restart Quiz</button>
+                    <button id="retry-incorrect-btn" class="btn btn-secondary">Retry Incorrect</button>
+					<button id="new-quiz-btn" class="btn btn-secondary" onclick="handleStartNewQuiz()">New Quiz</button>
+                </div>
+                <div id="quiz-results-container">
+                    <h3>Recent Attempts</h3>
+                    <ul id="quiz-results-list"></ul>
+                </div>
+            </div>
+        </section>
 	</main>
 
 	<script src="script.js" defer></script>
-	<script src="quiz.js" defer></script>
 	<script src="learn.js" defer></script>
 	<script src="inspection.js" defer></script>
+	<script src="quiz.js" defer></script>
 </body>
 </html>

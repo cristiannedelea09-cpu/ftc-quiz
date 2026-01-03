@@ -254,99 +254,6 @@ const questionBank = {
       correctAnswer: 1,
       explanation: 'Coaches help with strategy and may talk to referees if event rules allow. They do not directly control the robot during matches.'
     }
-  ],
-
-  'Robot Inspection': [
-    {
-      question: 'A robot has exposed sharp edges that could injure volunteers — during inspection this is:',
-      options: ['Legal if taped', 'Illegal and must be fixed before competing', 'Allowed if only small', 'Ignored by inspectors'],
-      correctAnswer: 1,
-      explanation: 'Sharp edges that can cause injury fail inspection; teams must remedy safety hazards before being cleared.'
-    },
-    {
-      question: 'If a robot exceeds the size or weight limits in the Game Manual, the inspection result is:',
-      options: ['Allowed for one match', 'Illegal until corrected', 'Given a temporary waiver automatically', 'Ignored if close'],
-      correctAnswer: 1,
-      explanation: 'Robots must meet size and weight requirements; exceeding limits is a rules violation until adjusted and re‑inspected.'
-    },
-    {
-      question: 'An exposed battery connection that could short is found — inspector should:',
-      options: ['Cover with tape and pass', 'Pass and note it later', 'Fail inspection until fixed', 'Replace with a different battery later'],
-      correctAnswer: 2,
-      explanation: 'Electrical hazards must be addressed before a robot is allowed to compete; inspectors will not pass a robot with unsafe wiring.'
-    },
-    {
-      question: 'Teams are allowed to use non‑standard materials that provide unfair advantage if not listed in the manual:',
-      options: ['Yes, always', 'Only if lightweight', 'No — illegal modifications must follow rules', 'Only during practice matches'],
-      correctAnswer: 2,
-      explanation: 'Materials or modifications that violate the construction rules or give an unfair advantage are not allowed and may fail inspection.'
-    },
-    {
-      question: 'A robot uses a motor that is not on the approved motor list. During inspection this is:',
-      options: ['Allowed if similar', 'Illegal until replaced with an approved motor', 'Ignored', 'Permitted with a fee'],
-      correctAnswer: 1,
-      explanation: 'Parts lists are enforced; non‑approved motors or electronics must be replaced with allowed components unless the manual allows exceptions.'
-    },
-    {
-      question: 'If a robot emits excessive smoke or smells of burning during inspection, inspectors should:',
-      options: ['Proceed quickly', 'Fail inspection and require fixes', 'Allow it if brief', 'Recommend different batteries'],
-      correctAnswer: 1,
-      explanation: 'Signs of overheating or burning indicate unsafe electrical or mechanical faults — robots are not passed until fixed.'
-    },
-    {
-      question: 'Loose parts that may detach during play are discovered — inspector will:',
-      options: ['Ignore if small', 'Require secure attachment before passing', 'Tape them loosely', 'Allow removal by Human Player'],
-      correctAnswer: 1,
-      explanation: 'Anything likely to detach and damage field or robots must be secured; inspection ensures all parts are safely attached.'
-    },
-    {
-      question: 'A robot uses a custom pneumatic system not conforming to safety regs — this is:',
-      options: ['Allowed if effective', 'Illegal until brought into compliance', 'Permitted outdoors only', 'Allowed with extra inspection fee'],
-      correctAnswer: 1,
-      explanation: 'Pneumatic systems must meet safety specifications; non‑compliant systems must be modified to pass inspection.'
-    },
-    {
-      question: 'If an inspection finds the team has used prohibited adhesives that permanently alter field elements, the robot is:',
-      options: ['Passed with note', 'Failed until adhesives are removed', 'Allowed for practice only', 'Given a penalty instead of failing'],
-      correctAnswer: 1,
-      explanation: 'Prohibited adhesives or coatings that could damage field elements are not allowed; teams must remove them to pass inspection.'
-    },
-    {
-      question: 'Using an unshielded high‑voltage power source on the robot is:',
-      options: ['Acceptable if labeled', 'Allowed with inspector discretion', 'Unsafe and not allowed', 'Permitted for advanced teams'],
-      correctAnswer: 2,
-      explanation: 'High‑voltage or unshielded power sources present safety risks and are not permitted under inspection rules.'
-    },
-    {
-      question: 'If a team modifies a control system after passing inspection, they must:',
-      options: ['Do nothing', 'Notify inspectors and get re‑inspected if changes affect compliance', 'Only notify opposing teams', 'Wait until the next season'],
-      correctAnswer: 1,
-      explanation: 'Major changes after inspection require re‑inspection to ensure ongoing compliance with safety and rules.'
-    },
-    {
-      question: 'Wiring color codes are incorrect but connections are safe — inspectors will:',
-      options: ['Ignore color', 'Require labeling or correction for clarity', 'Fail the team immediately', 'Replace wiring themselves'],
-      correctAnswer: 1,
-      explanation: 'While color can be a minor issue, inspectors often require clear labeling or correction to avoid confusion and ensure safety.'
-    },
-    {
-      question: 'A robot contains unsecured liquids that could spill on electronics — inspection outcome is:',
-      options: ['Allowed if sealed', 'Fail until liquids removed or secured', 'Allowed with a towel', 'Permitted only in practice area'],
-      correctAnswer: 1,
-      explanation: 'Liquids near electronics pose a hazard; teams must remove or properly secure any liquid containers before competing.'
-    },
-    {
-      question: 'Use of live animals as part of the robot mechanism during competition is:',
-      options: ['Allowed with care', 'Allowed if supervised', 'Prohibited', 'Allowed in special exhibition matches'],
-      correctAnswer: 2,
-      explanation: 'Using animals is not allowed in competition for safety and ethical reasons; robots must not include live animals.'
-    },
-    {
-      question: 'If inspection shows a robot’s software includes prohibited autonomous behavior, inspectors will:',
-      options: ['Request code comments', 'Require software changes and re‑inspection', 'Allow it with a warning', 'Remove the robot from the event permanently'],
-      correctAnswer: 1,
-      explanation: 'Prohibited software behavior (e.g., code enabling illegal actions) must be corrected; teams may need to update code and be re‑inspected.'
-    }
   ]
 };
 
@@ -413,6 +320,7 @@ function prepareQuiz(category = 'All', count = 10) {
 
 window.quizUtils = window.quizUtils || {};
 window.quizUtils.prepareQuiz = prepareQuiz;
+window.quizUtils.setCategory = setCategory;
 
 function initQuiz() {
   currentIndex = 0;
@@ -424,15 +332,15 @@ function initQuiz() {
   nextBtn.disabled = true;
   resultScreen.hidden = true;
   quizSection.hidden = false;
-  setTopNavDisabled(true);
+  // setTopNavDisabled(true);
   if (explanationEl) {
     explanationEl.hidden = true;
     explanationEl.textContent = '';
   }
   if (window.setContextTitle) {
     const total = activeQuestions.length || 0;
-    const cat = selectedCategory || 'Tests';
-    window.setContextTitle(`Tests → ${cat} → Question ${currentIndex + 1} / ${total}`);
+    const cat = selectedCategory || 'Quiz';
+    window.setContextTitle(`Quiz → ${cat} → Question ${currentIndex + 1} / ${total}`);
   }
   updateProgress(currentIndex + 1, activeQuestions.length);
 }
@@ -460,8 +368,8 @@ function showQuestion(index) {
   }
   if (window.setContextTitle) {
     const total = activeQuestions.length || 0;
-    const cat = selectedCategory || 'Tests';
-    window.setContextTitle(`Tests → ${cat} → Question ${index + 1} / ${total}`);
+    const cat = selectedCategory || 'Quiz';
+    window.setContextTitle(`Quiz → ${cat} → Question ${index + 1} / ${total}`);
   }
   updateProgress(index + 1, activeQuestions.length);
 }
@@ -520,6 +428,7 @@ function saveQuizResult({ testType, score, total }) {
   if (results.length > 10) results = results.slice(0, 10);
   try {
     localStorage.setItem(key, JSON.stringify(results));
+
   } catch (e) { /* ignore quota errors */ }
 }
     let incorrectQuestions = [];
@@ -550,10 +459,10 @@ function handleNext() {
 
     quizSection.hidden = true;
     resultScreen.hidden = false;
-    setTopNavDisabled(false);
+    // setTopNavDisabled(false);
     if (window.setContextTitle) {
-      const cat = selectedCategory || 'Tests';
-      window.setContextTitle(`Tests → ${cat} → Results`);
+      const cat = selectedCategory || 'Quiz';
+      window.setContextTitle(`Quiz → ${cat} → Results`);
     }
     updateProgress(total, total);
     saveQuizResult({
@@ -587,8 +496,22 @@ function updateProgress(current, total) {
   fill.style.width = pct + '%';
 }
 
-function handleRestart() {
+function handleRestartQuiz() {
   initQuiz();
+}
+
+function handleStartNewQuiz() {
+  const quizContainer = document.getElementById('quiz-container');
+  const testSelect = document.getElementById('test-select');
+  const resultScreen = document.getElementById('result-screen');
+
+  if (quizContainer) quizContainer.hidden = true;
+  if (testSelect) testSelect.hidden = false;
+if (resultScreen) resultScreen.hidden = true;
+
+  if (window.setContextTitle) {
+    window.setContextTitle('Quiz');
+  }
 }
 
 answerBtns.forEach(btn => btn.addEventListener('click', handleAnswerClick));
@@ -598,7 +521,7 @@ answerBtns.forEach(btn => btn.addEventListener('click', handleAnswerClick));
       initQuiz(retryQs);
     }
 nextBtn.addEventListener('click', handleNext);
-restartBtn.addEventListener('click', handleRestart);
+restartBtn.addEventListener('click', handleRestartQuiz);
 
 function setCategory(cat) {
 

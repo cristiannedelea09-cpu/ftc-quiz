@@ -23,15 +23,13 @@ function showSection(sectionKey) {
 			const activeLesson = document.querySelector('.lesson-btn.active, .learn-topic-btn.active');
 			const lessonName = activeLesson ? (activeLesson.dataset.topic || activeLesson.textContent.trim()) : '';
 			window.setContextTitle(lessonName ? `Learn → ${lessonName}` : 'Learn');
-		} else if (sectionKey === 'tests') {
-			const catBtn = document.querySelector('.category-btn.active');
-			const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
-			window.setContextTitle(cat ? `Tests → ${cat}` : 'Tests');
 		} else if (sectionKey === 'inspection') {
-			if (window.resetInspectionView) {
-				window.resetInspectionView();
-			}
 			window.setContextTitle('Inspection');
+		} else if (sectionKey === 'quiz') {
+			window.setContextTitle('Quiz');
+			if (window.quizUtils && typeof window.quizUtils.setCategory === 'function') {
+				window.quizUtils.setCategory('All');
+			}
 		} else {
 			window.setContextTitle(sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1));
 		}
@@ -100,31 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		});
 	}
-	const lessonControls = document.getElementById('lesson-controls');
-	if (learnMenu && lessonControls && !document.getElementById('lesson-go-to-tests')) {
-		const goToTestsBtn = document.createElement('button');
-		goToTestsBtn.id = 'lesson-go-to-tests';
-		goToTestsBtn.textContent = 'Go to Tests';
-		goToTestsBtn.className = 'btn btn-secondary';
-		goToTestsBtn.addEventListener('click', () => {
-			showSection('tests');
-		});
-		lessonControls.appendChild(goToTestsBtn);
-	}
-
-	const testSelectGrid = document.querySelector('.test-select-grid');
-	if (testSelectGrid) {
-		testSelectGrid.addEventListener('click', (e) => {
-			if (e.target.classList.contains('test-select-btn')) {
-				document.getElementById('quiz-loading').style.display = 'block';
-				document.getElementById('quiz').style.display = 'none';
-				setTimeout(() => {
-					document.getElementById('quiz-loading').style.display = 'none';
-					document.getElementById('quiz').style.display = 'block';
-				}, 600);
-			}
-		});
-	}
 	function showQuizEmpty() {
 		document.getElementById('quiz-empty').style.display = 'block';
 		document.getElementById('quiz').style.display = 'none';
@@ -140,8 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			showSection('progress');
 			renderProgressSection();
 		});
-		resultScreen.querySelector('.quiz-result-actions').appendChild(goToProgressBtn);
+		resultScreen.querySelector('.result-actions').appendChild(goToProgressBtn);
 	}
+
 });
 
 document.addEventListener('click', function(e) {
@@ -207,43 +181,11 @@ function renderProgressSection() {
 			bestList.appendChild(li);
 		});
 
-		if (!document.getElementById('go-to-tests-from-progress')) {
-			const goToTestsBtn = document.createElement('button');
-			goToTestsBtn.id = 'go-to-tests-from-progress';
-			goToTestsBtn.textContent = 'Go to Tests';
-			goToTestsBtn.className = 'section-btn';
-			goToTestsBtn.style.marginTop = '10px';
-			goToTestsBtn.addEventListener('click', () => {
-				showSection('tests');
-			});
-			document.querySelector('.progress-summary').appendChild(goToTestsBtn);
-		}
 	}, 600);
 }
 
 window.setContextTitle = function(text) {
 	const el = document.getElementById('context-title');
 	if (!el) return;
-	const testsSection = document.getElementById('tests-section');
-	const progressSection = document.getElementById('progress-section');
-	if (testsSection && !testsSection.hidden) {
-		const catBtn = document.querySelector('.category-btn.active');
-		const cat = catBtn ? catBtn.dataset.cat || catBtn.textContent.trim() : '';
-		const quizVisible = document.getElementById('quiz') && !document.getElementById('quiz').hidden;
-		const resultVisible = document.getElementById('result-screen') && !document.getElementById('result-screen').hidden;
-		if (resultVisible) {
-			el.textContent = `Tests → ${cat || 'All'} → Results`;
-		} else if (quizVisible) {
-			el.textContent = `Tests → ${cat || 'All'} → Quiz`;
-		} else {
-			el.textContent = cat ? `Tests → ${cat}` : 'Tests';
-		}
-		return;
-	}
-	if (progressSection && !progressSection.hidden) {
-		el.textContent = 'Progress → Overview';
-		return;
-	}
 	el.textContent = String(text || '').trim();
 };
-
