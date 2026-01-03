@@ -50,6 +50,10 @@ body, html {
   box-shadow: none;
 }
 
+#next-btn.finish-btn {
+    background: var(--success);
+}
+
 /* Secondary Button (looks like .top-nav-btn) */
 .btn-secondary {
   background: transparent;

@@ -371,6 +371,15 @@ function showQuestion(index) {
     const cat = selectedCategory || 'Quiz';
     window.setContextTitle(`Quiz → ${cat} → Question ${index + 1} / ${total}`);
   }
+
+  if (index === activeQuestions.length - 1) {
+    nextBtn.textContent = 'Finish';
+    nextBtn.classList.add('finish-btn');
+  } else {
+    nextBtn.textContent = 'Next';
+    nextBtn.classList.remove('finish-btn');
+  }
+
   updateProgress(index + 1, activeQuestions.length);
 }
 
