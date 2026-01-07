@@ -920,7 +920,11 @@ section[id$="-section"][hidden] {
   }
 }
 
-
-
-
-
+@media (min-width: 1024px) {
+  #about-section {
+    margin-top: 2350px;
+  }
+  #inspection-section {
+    margin-top: 1700px;
+  }
+}

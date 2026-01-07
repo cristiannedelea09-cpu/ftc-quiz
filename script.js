@@ -8,6 +8,12 @@ function showSection(sectionKey) {
 	const container = document.querySelector('main') || document.body;
 	if (!container) return;
 
+	if (sectionKey === 'quiz') {
+		container.classList.add('quiz-active');
+	} else {
+		container.classList.remove('quiz-active');
+	}
+
 	const sections = Array.from(container.querySelectorAll(':scope > section'));
 	sections.forEach(s => {
 		s.hidden = s.id !== targetId;
