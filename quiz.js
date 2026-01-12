@@ -265,13 +265,14 @@ const questionEl = document.getElementById('question');
 const answerBtns = Array.from(document.querySelectorAll('.answer-btn'));
 const nextBtn = document.getElementById('next-btn');
 const resultScreen = document.getElementById('result-screen');
-const finalScoreValue = document.getElementById('final-score-value');
-const restartBtn = document.getElementById('restart-btn');
+const finalScoreCorrect = document.getElementById('final-score-correct');
+
 const quizSection = document.getElementById('quiz');
 const explanationEl = document.getElementById('explanation');
 const categoryBtns = Array.from(document.querySelectorAll('.category-btn'));
 const progressBarEl = document.getElementById('progress-bar');
 const progressTextEl = document.getElementById('progress-text');
+const quizControls = document.getElementById('quiz-controls');
 
 let selectedCategory = 'All';
 let activeQuestions = [];
@@ -451,7 +452,7 @@ function handleNext() {
     const percent = total > 0 ? Math.round((score / total) * 100) : 0;
     const pass = percent >= 70;
 
-    finalScoreValue.textContent = String(score);
+    
     const totalEl = document.getElementById('final-score-total');
     if (totalEl) totalEl.textContent = String(total);
     const percentEl = document.getElementById('final-score-percent');
@@ -467,6 +468,7 @@ function handleNext() {
     }
 
     quizSection.hidden = true;
+    if (quizControls) quizControls.hidden = true;
     resultScreen.hidden = false;
     // setTopNavDisabled(false);
     if (window.setContextTitle) {
@@ -530,12 +532,11 @@ answerBtns.forEach(btn => btn.addEventListener('click', handleAnswerClick));
       initQuiz(retryQs);
     }
 nextBtn.addEventListener('click', handleNext);
-restartBtn.addEventListener('click', handleRestartQuiz);
+
 
 function setCategory(cat) {
 
-    const retryIncorrectBtn = document.getElementById('retry-incorrect-btn');
-    if (retryIncorrectBtn) retryIncorrectBtn.addEventListener('click', handleRetryIncorrect);
+
   selectedCategory = cat;
   categoryBtns.forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
   activeQuestions = prepareQuiz(cat, 10);
@@ -582,3 +583,30 @@ function escapeHtml(str) {
 
 
   renderQuizResultsList();
+
+const backToLearnBtn = document.getElementById('back-to-learn-btn');
+const backToQuizBtn = document.getElementById('back-to-quiz-btn');
+const backToInspectionBtn = document.getElementById('back-to-inspection-btn');
+
+if (backToLearnBtn) {
+    backToLearnBtn.addEventListener('click', () => {
+        showSection('learn');
+    });
+}
+
+if (backToQuizBtn) {
+    backToQuizBtn.addEventListener('click', () => {
+        showSection('quiz');
+        if (typeof handleStartNewQuiz === 'function') {
+            handleStartNewQuiz();
+        } else {
+            setCategory('All');
+        }
+    });
+}
+
+if (backToInspectionBtn) {
+    backToInspectionBtn.addEventListener('click', () => {
+        showSection('inspection');
+    });
+}
