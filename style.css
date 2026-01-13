@@ -925,6 +925,7 @@ section[id$="-section"][hidden] {
     margin-top: 2350px;
   }
   #inspection-section {
-    margin-top: 1700px;
+    margin-top: 1600px;
+    transition: margin-top 0.5s ease-in-out;
   }
 }
