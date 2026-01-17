@@ -832,6 +832,18 @@ section[id$="-section"][hidden] {
     flex-direction: column;
     gap: 12px;
   }
+  #learn-section {
+    margin-top: 1350px;
+  }
+  #inspection-section {
+    margin-top: 1400px;
+  }
+  #quiz {
+    margin-top: 380px;
+  }
+  #about-section {
+    margin-top: 1930px;
+  }
 
   #lesson-nav,
   #learn-menu,
