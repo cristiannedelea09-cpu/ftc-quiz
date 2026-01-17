@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const newMarginTop = initialMarginTop - (checkedCount * marginTopReduction);
         inspectionSection.style.marginTop = `${newMarginTop}px`;
       } else {
-        // Reset margin if not in desktop view
         inspectionSection.style.marginTop = '';
       }
     };
@@ -94,10 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Also check on window resize
     window.addEventListener('resize', updateMargin);
 
-    // Initial render and margin calculation
     renderChecklist();
     updateMargin();
   }

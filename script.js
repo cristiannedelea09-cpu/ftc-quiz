@@ -71,33 +71,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const hamburger = document.getElementById('hamburger-menu');
 	const mobileNav = document.getElementById('mobile-nav');
-	const body = document.body; // Get body element
+	const body = document.body;
 
 	if (hamburger && mobileNav) {
-		// Event listener for hamburger click
 		hamburger.addEventListener('click', () => {
-			const isCurrentlyOpen = mobileNav.classList.contains('is-open'); // Check class instead of hidden attribute
+			const isCurrentlyOpen = mobileNav.classList.contains('is-open');
 			hamburger.setAttribute('aria-expanded', !isCurrentlyOpen);
-			mobileNav.classList.toggle('is-open'); // Toggle is-open class
-			body.classList.toggle('no-scroll', !isCurrentlyOpen); // Toggle no-scroll class on body
+			mobileNav.classList.toggle('is-open');
+			body.classList.toggle('no-scroll', !isCurrentlyOpen); 
 		});
 
-		// Close menu when clicking outside
 		document.addEventListener('click', function(e) {
-			// Ensure click is outside both mobileNav and hamburger (and its children)
 			if (mobileNav.classList.contains('is-open') && !mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
-				mobileNav.classList.remove('is-open'); // Remove is-open class
+				mobileNav.classList.remove('is-open');
 				hamburger.setAttribute('aria-expanded', 'false');
-				body.classList.remove('no-scroll'); // Remove no-scroll class
+				body.classList.remove('no-scroll');
 			}
 		});
 
-		// Close menu when a menu item is clicked
 		mobileNav.querySelectorAll('.top-nav-btn').forEach(btn => {
 			btn.addEventListener('click', () => {
-				mobileNav.classList.remove('is-open'); // Remove is-open class
+				mobileNav.classList.remove('is-open');
 				hamburger.setAttribute('aria-expanded', 'false');
-				body.classList.remove('no-scroll'); // Remove no-scroll class
+				body.classList.remove('no-scroll');
 			});
 		});
 	}

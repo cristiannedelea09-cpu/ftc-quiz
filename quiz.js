@@ -333,7 +333,6 @@ function initQuiz() {
   nextBtn.disabled = true;
   resultScreen.hidden = true;
   quizSection.hidden = false;
-  // setTopNavDisabled(true);
   if (explanationEl) {
     explanationEl.hidden = true;
     explanationEl.textContent = '';
@@ -470,7 +469,6 @@ function handleNext() {
     quizSection.hidden = true;
     if (quizControls) quizControls.hidden = true;
     resultScreen.hidden = false;
-    // setTopNavDisabled(false);
     if (window.setContextTitle) {
       const cat = selectedCategory || 'Quiz';
       window.setContextTitle(`Quiz → ${cat} → Results`);
