@@ -807,9 +807,8 @@ section[id$="-section"][hidden] {
 
   section[id$="-section"],
   .card-panel {
-    padding-left: 12px;
-    padding-right: 12px;
   }
+
 
   p {
     line-height: 1.75;
@@ -832,8 +831,20 @@ section[id$="-section"][hidden] {
     flex-direction: column;
     gap: 12px;
   }
-  #learn-section {
+  #learn-section[data-topic='Autonomous'] {
+    margin-top: 1380px;
+  }
+  #learn-section[data-topic='TeleOp'] {
+    margin-top: 1280px;
+  }
+  #learn-section[data-topic='Endgame'] {
+    margin-top: 930px;
+  }
+  #learn-section[data-topic='Penalties'] {
     margin-top: 1350px;
+  }
+  #learn-section[data-topic='Roles'] {
+    margin-top: 1020px;
   }
   #inspection-section {
     margin-top: 1400px;
@@ -842,7 +853,7 @@ section[id$="-section"][hidden] {
     margin-top: 380px;
   }
   #about-section {
-    margin-top: 1930px;
+    margin-top: 3850px;
   }
 
   #lesson-nav,

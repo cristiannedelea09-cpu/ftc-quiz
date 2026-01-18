@@ -201,11 +201,17 @@
   let currentLessonIndex = 0;
 
   function loadLesson(topic) {
+    window.scrollTo(0, 100000);
     const { content, nav } = ensureLearnSection();
     const lesson = lessons[topic];
     if (!lesson) {
       content.innerHTML = `<p class="muted">Lesson not found: ${topic}</p>`;
       return;
+    }
+
+    const learnSection = document.getElementById('learn-section');
+    if (learnSection) {
+      learnSection.dataset.topic = topic;
     }
 
     const buttons = nav.querySelectorAll('.learn-topic-btn, .lesson-btn');
