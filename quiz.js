@@ -586,6 +586,15 @@ const backToLearnBtn = document.getElementById('back-to-learn-btn');
 const backToQuizBtn = document.getElementById('back-to-quiz-btn');
 const backToInspectionBtn = document.getElementById('back-to-inspection-btn');
 
+function showQuizSelection() {
+    if (quizControls) quizControls.hidden = false;
+    if (quizSection) quizSection.hidden = false;
+    if (resultScreen) resultScreen.hidden = true;
+    if (window.setContextTitle) {
+        window.setContextTitle('Quiz');
+    }
+}
+
 if (backToLearnBtn) {
     backToLearnBtn.addEventListener('click', () => {
         showSection('learn');
@@ -595,11 +604,7 @@ if (backToLearnBtn) {
 if (backToQuizBtn) {
     backToQuizBtn.addEventListener('click', () => {
         showSection('quiz');
-        if (typeof handleStartNewQuiz === 'function') {
-            handleStartNewQuiz();
-        } else {
-            setCategory('All');
-        }
+        showQuizSelection();
     });
 }
 
