@@ -124,7 +124,7 @@ body, html {
   body, html {
     font-size: 1.02rem;
   }
-  .top-nav-btn, .section-btn, .learn-topic-btn, .lesson-nav-btn, .inspection-btn, .inspection-action-btn {
+  .top-nav-btn, .section-btn, .learn-.btn, .lesson-nav-btn, .inspection-btn, .inspection-action-btn {
     font-size: 1.08rem;
   }
 }
@@ -831,30 +831,6 @@ section[id$="-section"][hidden] {
     flex-direction: column;
     gap: 12px;
   }
-  #learn-section[data-topic='Autonomous'] {
-    margin-top: 1380px;
-  }
-  #learn-section[data-topic='TeleOp'] {
-    margin-top: 1280px;
-  }
-  #learn-section[data-topic='Endgame'] {
-    margin-top: 930px;
-  }
-  #learn-section[data-topic='Penalties'] {
-    margin-top: 1350px;
-  }
-  #learn-section[data-topic='Roles'] {
-    margin-top: 1020px;
-  }
-  #inspection-section {
-    margin-top: 1400px;
-  }
-  #quiz {
-    margin-top: 380px;
-  }
-  #about-section {
-    margin-top: 3850px;
-  }
 
   #lesson-nav,
   #learn-menu,
@@ -923,6 +899,40 @@ section[id$="-section"][hidden] {
 
   body.no-scroll {
     overflow: hidden;
+  }
+}
+@media (max-width: 768px) {
+  #learn-section {
+    margin-top: 1370px;
+  }
+  #inspection-section {
+    margin-top: 1420px;
+  }
+  #about-section {
+    margin-top: 3820px;
+  }
+  #privacy-section {
+    margin-top: 20px;
+  }
+  #contact-section {
+    margin-top: 20px;
+  }
+  #quiz-section {
+    margin-top: 240px;
+  }
+}
+@media (max-width: 768px) {
+  .category-buttons {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    gap: 8px;
+  }
+  .category-buttons .category-btn {
+    width: auto;
+    margin-bottom: 0;
   }
 }
 
